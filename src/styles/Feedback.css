@@ -1,0 +1,156 @@
+/* src/styles/Feedback.css */
+
+/* Contenitore Principale Feedback */
+.feedback-section {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-top: 40px;
+  border-top: 4px solid #ffc107; /* Un tocco di colore giallo sopra */
+}
+
+.feedback-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- FORM DI INSERIMENTO --- */
+.add-feedback-form {
+  background: #fcfcfc;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border: 1px solid #eee;
+}
+
+.form-subtitle {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  color: #555;
+  font-weight: 600;
+}
+
+/* SISTEMA A STELLE (INTERATTIVO) */
+.star-rating-input {
+  display: flex;
+  gap: 8px;
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 15px;
+  user-select: none; /* Evita che si selezioni il testo cliccando */
+}
+
+.star {
+  color: #e0e0e0; /* Grigio spento */
+  transition: transform 0.1s, color 0.2s;
+}
+
+/* Quando passi sopra o è selezionata */
+.star.active {
+  color: #ffc107; /* Giallo Oro */
+  transform: scale(1.1); /* Leggero ingrandimento */
+}
+
+/* --- LISTA RECENSIONI --- */
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feedback-empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 20px;
+}
+
+.feedback-item {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.feedback-item:last-child {
+  border-bottom: none;
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.feedback-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feedback-avatar {
+  width: 35px;
+  height: 35px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.feedback-name {
+  font-weight: 700;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.feedback-stars-static {
+  color: #ffc107;
+  letter-spacing: 2px;
+  font-size: 1rem;
+}
+
+.feedback-comment {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Bottone Elimina (piccolo e discreto) */
+.btn-delete-feedback {
+  background: none;
+  border: none;
+  color: #dc3545; /* Rosso */
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-top: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  text-decoration: underline;
+}
+
+.btn-delete-feedback:hover {
+  opacity: 1;
+}
+
+/* Testo accanto alle stelle (es. "3/5") */
+.rating-count {
+  font-size: 1rem;
+  color: #666;
+  margin-left: 10px;
+  align-self: center;
+}
+
+/* Margine per il bottone di invio */
+.btn-submit-feedback {
+  margin-top: 10px;
+}

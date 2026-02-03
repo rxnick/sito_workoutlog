@@ -1,0 +1,375 @@
+/* src/styles/Exercises.css */
+
+/* Contenitore Principale */
+.exercises-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.page-title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+/* --- BARRA DI RICERCA --- */
+.search-bar-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s;
+}
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 4px 10px rgba(0,123,255,0.2);
+}
+
+/* --- BOTTONI GENERALI --- */
+.text-center { text-align: center; }
+.mb-30 { margin-bottom: 30px; }
+.mb-15 { margin-bottom: 15px; }
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* --- FORM DI INSERIMENTO / MODIFICA --- */
+.add-exercise-form {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 50px;
+  border: 1px solid #eee;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.form-title {
+  margin-top: 0;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-col { flex: 1; }
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.form-input:focus, .form-textarea:focus { border-color: #007bff; outline: none; }
+
+.form-textarea { resize: vertical; min-height: 80px; }
+
+.checkbox-row {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #555;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn-save {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-save:hover { background-color: #218838; }
+
+.btn-cancel {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-cancel:hover { background-color: #e2e6ea; }
+
+/* --- GRIGLIA DEGLI ESERCIZI --- */
+.exercises-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.exercise-card {
+  background: white;
+  border-radius: 12px;
+  padding: 0; /* Padding gestito internamente */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #f0f0f0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden; /* Per l'immagine */
+  display: flex;
+  flex-direction: column;
+}
+.exercise-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Strisce colorate laterali */
+.border-public { border-left: 6px solid #007bff; }
+.border-private { border-left: 6px solid #ff9800; }
+
+.exercise-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.exercise-content {
+  padding: 20px;
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.exercise-name {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.exercise-actions {
+  display: flex;
+  gap: 5px;
+}
+
+/* Bottoni Icona */
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.btn-icon:hover { background-color: #f1f1f1; }
+.btn-icon.edit { color: #ff9800; }
+.btn-icon.delete { color: #dc3545; }
+
+.exercise-meta {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.muscle-tag {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.exercise-desc {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.exercise-footer {
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* Stati */
+.loading-text, .empty-state, .start-state { text-align: center; color: #666; margin-top: 40px; }
+.start-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+
+/* Animazioni */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- FILTRI AGGIUNTIVI --- */
+.filters-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap; /* Per mobile va a capo */
+}
+
+.filter-select {
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 0.95rem;
+  color: #555;
+  cursor: pointer;
+  outline: none;
+  min-width: 150px;
+}
+
+.filter-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+/* STILI PER LA SCHEDA DETTAGLIO (Parte Alta) */
+.detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.detail-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin-bottom: 0; 
+}
+
+.detail-img-container {
+  width: 100%;
+  height: 350px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-content {
+  padding: 30px;
+}
+
+.detail-title {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+  color: #333;
+  margin-top: 0;
+}
+
+/* --- BADGES (Etichette colorate) --- */
+.detail-badges {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.badge {
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block; /* Assicura che il padding funzioni bene */
+}
+
+.badge-muscle {
+  background: #e3f2fd; 
+  color: #007bff;
+}
+
+.detail-desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+/* Placeholder per quando manca l'immagine */
+.detail-img-placeholder {
+  color: #aaa;
+  font-size: 1.5rem;
+}
+
+/* Badge dinamici */
+.badge-public {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-private {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Testo "Creato da..." */
+.detail-author {
+  color: #777;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,89 @@
+/* Sfondo scuro che copre tutto lo schermo */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semitrasparente */
+  backdrop-filter: blur(3px); /* Effetto sfocato figo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Deve stare sopra a tutto */
+}
+
+/* La scatola bianca */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: popIn 0.3s ease;
+}
+
+.modal-header h3 {
+  margin: 0 0 10px 0;
+  color: #d32f2f; /* Rosso allarme */
+}
+
+.modal-body p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+/* Bottoni */
+.btn-cancel {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-confirm {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancel:hover { background-color: #d5d5d5; }
+.btn-confirm:hover { background-color: #b71c1c; }
+
+/* Animazione di entrata */
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Bottone Verde per Successo/Info */
+.btn-success {
+  background-color: #28a745; /* Verde */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-success:hover { background-color: #218838; }
+
+/* Colori dinamici per il titolo */
+.text-danger { color: #d32f2f !important; } /* Forza il rosso */
+.text-success { color: #007bff !important; } /* Blu/Azzurro per info */

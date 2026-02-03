@@ -1,0 +1,71 @@
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Un'ombra carina */
+}
+
+.login-title {
+  text-align: center;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* Importante per non sbordare */
+}
+
+.btn-login {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #218838;
+}
+
+.error-msg {
+  color: red;
+  text-align: center;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.div-forgot-pass{
+  text-align: right; 
+  margin-bottom: 15px;
+}
+
+.link-forgot-pass{
+  color: #007bff; 
+  font-size: 0.9rem; 
+  text-decoration: none;
+}
+
+.p-registrati{
+  margin-top: 15px; 
+  text-align: center;
+}
+
+.link-registrati{
+  color: #007bff; 
+}

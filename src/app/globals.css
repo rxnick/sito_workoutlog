@@ -1,0 +1,218 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Un grigino leggero di sfondo per tutto il sito */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Serve per far funzionare correttamente height: 100vh */
+html, body {
+  height: 100%;
+}
+
+/* --- PAGINA 404 e LOADING --- */
+
+.error-container, .loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh; /* Occupa quasi tutto lo schermo */
+  text-align: center;
+  padding: 20px;
+}
+
+/* Stili 404 */
+.error-code {
+  font-size: 6rem;
+  font-weight: 800;
+  color: #007bff; /* Blu del sito */
+  margin: 0;
+  line-height: 1;
+}
+
+.error-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+.error-desc {
+  color: #666;
+  max-width: 400px;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.btn-back-home {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-back-home:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Stili Loading (Spinner che gira) */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3; /* Grigio chiaro */
+  border-top: 5px solid #007bff; /* Blu */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Container della card Password Dimenticata */
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+}
+
+.auth-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.auth-desc {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+/* Input e Form */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box; /* Importante per non sbordare */
+}
+
+/* Bottoni */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.btn-secondary:hover {
+  background: #e2e6ea;
+}
+
+/* Messaggi di notifica */
+.message-box {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.message-error {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.message-info {
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+
+/* Box Giallo per il codice simulato */
+.debug-box {
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  animation: fadeIn 0.5s;
+}
+
+.debug-code {
+  font-size: 1.5rem;
+  display: block;
+  margin: 5px 0;
+  letter-spacing: 3px;
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.link-blue {
+  color: #007bff;
+  text-decoration: none;
+}
+.link-blue:hover {
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

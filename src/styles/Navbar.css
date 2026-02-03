@@ -1,0 +1,83 @@
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Spinge logo a sx e link a dx */
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky; /* Resta in alto se scorri */
+  top: 0;
+  z-index: 1000;
+  height: auto; /* Altezza per farci stare tutto */
+}
+
+/* Contenitore Sinistro (Logo + Testo) */
+.navbar-brand {
+  display: flex;
+  flex-direction: column; /* Impila verticalmente Logo e Ciao */
+  justify-content: center;
+  align-items: flex-start; /* Allinea tutto a sinistra */
+  line-height: 1; /* Riduce spazio tra le righe */
+}
+
+.navbar-logo {
+  height: 40; /* Dimensione fissa per il menu */
+  width: auto;
+  cursor: pointer;
+  display: block; /* Evita spazi extra sotto l'immagine */
+}
+
+/* Stile della scritta Ciao */
+.navbar-greeting {
+  font-size: 0.85rem;     /* Scritta piccola ed elegante */
+  color: black;       
+  font-weight: 600;       /* Grassetto per visibilità */
+  margin-left: 2px;       /* Piccolo allineamento ottico col logo */
+  margin-top: 15px;       /* Spazio dal logo */
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Spazio tra i link */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.btn-register-nav {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+
+.btn-register-nav:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.btn-logout-nav {
+  background-color: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+.btn-logout-nav:hover {
+  background-color: #dc3545;
+  color: white;
+}

@@ -1,0 +1,11 @@
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Occupa tutta l'altezza dello schermo */
+}
+
+/* Questo serve a spingere il footer in basso */
+.page-content {
+  flex: 1; /* Si allarga per occupare tutto lo spazio vuoto */
+  width: 100%;
+}
