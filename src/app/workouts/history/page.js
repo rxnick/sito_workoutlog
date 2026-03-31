@@ -14,11 +14,17 @@ const HistoryPage = () => {
       fetch('/api/workouts')
         .then(res => res.json())
         .then(data => {
-          // Se "data" è una lista [] caricala, altrimenti metti una lista vuota
+          // --- IL TRUCCO È QUI ---
+          // Se data è un array [], caricalo. 
+          // Se data è un oggetto {error:...} (perché sei stato sloggato), metti []
           setWorkouts(Array.isArray(data) ? data : []);
           setLoading(false);
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          console.error(err);
+          setWorkouts([]); // Paracadute in caso di errore di rete
+          setLoading(false);
+        });
     }
   }, [user]);
 
