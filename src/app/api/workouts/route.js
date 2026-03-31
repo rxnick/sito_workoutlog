@@ -15,15 +15,12 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Non autorizzato' }, { status: 401 });
     }
 
-    let sql = `SELECT * FROM workouts WHERE user_id = ? ORDER BY date DESC`;
-
     const workouts = await sql`
   SELECT * FROM workouts 
   WHERE user_id = ${user.id} 
   ORDER BY date DESC
 `;
     return NextResponse.json(workouts);
-    // Ora 'workouts' ha i dati che vogliamo
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
