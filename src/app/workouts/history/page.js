@@ -14,7 +14,8 @@ const HistoryPage = () => {
       fetch('/api/workouts')
         .then(res => res.json())
         .then(data => {
-          setWorkouts(data);
+          // Se "data" è una lista [] caricala, altrimenti metti una lista vuota
+          setWorkouts(Array.isArray(data) ? data : []);
           setLoading(false);
         })
         .catch(err => console.error(err));
