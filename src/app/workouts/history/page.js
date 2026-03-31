@@ -61,7 +61,11 @@ const HistoryPage = () => {
 
             <span className="workout-date">{formatDate(workout.date)}</span>
             <h3 className="workout-title">{workout.name}</h3>
-
+            {workout.start_time && (
+              <span className="workout-time-info">
+                ⌚ {workout.start_time} - {workout.end_time}
+              </span>
+            )}
             {workout.notes && (
               <p className="workout-notes">📝 {workout.notes}</p>
             )}
