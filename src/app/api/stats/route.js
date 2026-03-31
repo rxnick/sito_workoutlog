@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import db from '../../../lib/db';
+import sql from '../../../lib/db';
 
 const getAll = (sql, params) => new Promise((resolve, reject) => {
   db.all(sql, params, (err, rows) => {
@@ -22,48 +22,57 @@ export async function GET(request) {
 
     // --- A. STATISTICHE GENERALI ---
     if (type === 'general') {
-        
-        // 1. Allenamenti al Mese (Ultimi 6 mesi)
-        // SQLite usa strftime per estrarre mese e anno e togliere il giorno
-        // Uso group by per raggruppare tutti gli allenamenti che hanno lo stesso mese e anno
-        const workoutsByMonth = await getAll(`
-            SELECT strftime('%Y-%m', date) as month, COUNT(*) as count 
-            FROM workouts 
-            WHERE user_id = ? 
-            GROUP BY month 
-            ORDER BY month ASC 
-            LIMIT 6
-        `, [user.id]);
 
-        // 2. Distribuzione Muscoli (Conta quante volte hai fatto esercizi di quel gruppo)
-        const muscleDist = await getAll(`
-            SELECT e.muscle_group, COUNT(*) as count
-            FROM workout_exercises we
-            JOIN exercises e ON we.exercise_id = e.id
-            JOIN workouts w ON we.workout_id = w.id
-            WHERE w.user_id = ?
-            GROUP BY e.muscle_group
-        `, [user.id]);
+      // 1. Allenamenti al Mese (Ultimi 6 mesi)
 
-        return NextResponse.json({ workoutsByMonth, muscleDist });
+      // In Supabase, per formattare la data come "YYYY-MM", si usa TO_CHAR(date, 'YYYY-MM').
+
+      // TO_CHAR(date::date, 'YYYY-MM') serve a formattare la data in modo da avere solo anno e mese (es: 2024-06). 
+      // In questo modo posso raggruppare tutti gli allenamenti che hanno la stessa data (stesso mese e anno) e contare quanti sono.
+
+      // Nota: date::date serve a dire a Postgres "tratta questa stringa come una data". 
+      // ::int assicura che il conteggio sia un numero e non una stringa.
+
+      // Uso group by per raggruppare tutti gli allenamenti che hanno lo stesso mese e anno
+
+      const workoutsByMonth = await sql`
+    SELECT TO_CHAR(date::date, 'YYYY-MM') as month, COUNT(*)::int as count 
+    FROM workouts 
+    WHERE user_id = ${user.id} 
+    GROUP BY month 
+    ORDER BY month ASC 
+    LIMIT 6
+`;
+
+      // 2. Distribuzione Muscoli (Conta quante volte hai fatto esercizi di quel gruppo)
+      const muscleDist = await sql`
+    SELECT e.muscle_group, COUNT(*)::int as count
+    FROM workout_exercises we
+    JOIN exercises e ON we.exercise_id = e.id
+    JOIN workouts w ON we.workout_id = w.id
+    WHERE w.user_id = ${user.id}
+    GROUP BY e.muscle_group
+`;
+
+      return NextResponse.json({ workoutsByMonth, muscleDist });
     }
 
     // --- B. PROGRESSIONE CARICHI ---
     if (type === 'progression') {
-        const exerciseId = searchParams.get('exercise_id');
-        if (!exerciseId) return NextResponse.json([], { status: 400 });
+      const exerciseId = searchParams.get('exercise_id');
+      if (!exerciseId) return NextResponse.json([], { status: 400 });
 
-        // Estraiamo la Data e il PESO MASSIMO sollevato in quel giorno per quell'esercizio
-        const history = await getAll(`
-            SELECT w.date, MAX(we.weight) as max_weight
-            FROM workout_exercises we
-            JOIN workouts w ON we.workout_id = w.id
-            WHERE w.user_id = ? AND we.exercise_id = ?
-            GROUP BY w.date
-            ORDER BY w.date ASC
-        `, [user.id, exerciseId]);
+      // Estraiamo la Data e il PESO MASSIMO sollevato in quel giorno per quell'esercizio
+      const history = await sql`
+    SELECT w.date, MAX(we.weight) as max_weight
+    FROM workout_exercises we
+    JOIN workouts w ON we.workout_id = w.id
+    WHERE w.user_id = ${user.id} AND we.exercise_id = ${exerciseId}
+    GROUP BY w.date
+    ORDER BY w.date ASC
+`;
 
-        return NextResponse.json(history);
+      return NextResponse.json(history);
     }
 
     return NextResponse.json({ error: 'Tipo non valido' }, { status: 400 });

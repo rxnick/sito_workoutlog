@@ -1,29 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import db from '../../../lib/db';
-
-// Helper per gestire le query come Promise (per usare await)
-
-// new Promise: È come dire al codice: "Fermati qui. Ti prometto che ti darò un risultato, ma devi aspettare che io finisca"
-const runQuery = (query, params) => new Promise((resolve, reject) => { 
-  // db.run esegue la query (INSERT, UPDATE, DELETE)
-  db.run(query, params, function (err) {
-    if (err)
-      reject(err);    // Se va male, rompi la promessa (Errore)
-    else
-      resolve(this);  // Se va bene, mantieni la promessa e dai i dati
-  });
-});
-
-const getQuery = (query, params) => new Promise((resolve, reject) => {
-  // db.all prende tutti i risultati della query
-  db.all(query, params, (err, rows) => {
-    if (err)
-      reject(err); // Se va male, rompi la promessa (Errore)
-    else
-      resolve(rows); // Se va bene, mantieni la promessa e dai i dati (le righe)
-  });
-});
+import sql from '../../../lib/db';
 
 // --- METODO GET (Per la Dashboard) ---
 export async function GET(request) {
@@ -40,9 +17,11 @@ export async function GET(request) {
 
     let sql = `SELECT * FROM workouts WHERE user_id = ? ORDER BY date DESC`;
 
-    // grazie alle Promise possiamo aspettare il risultato della query
-    const workouts = await getQuery(sql, [user.id]);
-    // Il codice SI CONGELA qui finché la Promise non fa 'resolve'.
+    const workouts = await sql`
+  SELECT * FROM workouts 
+  WHERE user_id = ${user.id} 
+  ORDER BY date DESC
+`;
     return NextResponse.json(workouts);
     // Ora 'workouts' ha i dati che vogliamo
   } catch (error) {
@@ -65,19 +44,22 @@ export async function POST(request) {
 
     if (!name || !date) return NextResponse.json({ error: 'Dati mancanti' }, { status: 400 });
 
-    const result = await runQuery(
-      `INSERT INTO workouts (user_id, name, date, notes, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)`,
-      [user.id, name, date, notes, start_time, end_time]
-    );
+    // 1. Inserimento dell'allenamento principale
+    const result = await sql`
+  INSERT INTO workouts (user_id, name, date, notes, start_time, end_time) 
+  VALUES (${user.id}, ${name}, ${date}, ${notes}, ${start_time}, ${end_time})
+  RETURNING id
+`;
 
-    const newWorkoutId = result.lastID;
+    // 2. Recupero dell'ID (Postgres restituisce un array, quindi prendiamo il primo elemento)
+    const newWorkoutId = result[0].id;
 
     if (exercises && exercises.length > 0) {
       for (const ex of exercises) {
-        await runQuery(
-          `INSERT INTO workout_exercises (workout_id, exercise_id, sets, reps, weight, rest_time, notes) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-          [newWorkoutId, ex.exercise_id, ex.sets, ex.reps, ex.weight, ex.rest_time || 0, ex.notes || '']
-        );
+        await sql`
+  INSERT INTO workout_exercises (workout_id, exercise_id, sets, reps, weight, rest_time, notes) 
+  VALUES (${newWorkoutId}, ${ex.exercise_id}, ${ex.sets}, ${ex.reps}, ${ex.weight}, ${ex.rest_time || 0}, ${ex.notes || ''})
+`;
       }
     }
 

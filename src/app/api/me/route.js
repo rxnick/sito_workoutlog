@@ -1,22 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import db from '../../../lib/db';
+import sql from '../../../lib/db';
 import bcrypt from 'bcrypt';
-
-// --- HELPER DATABASE ---
-const run = (sql, params) => new Promise((resolve, reject) => {
-  db.run(sql, params, function (err) {
-    if (err) reject(err);
-    else resolve(this);
-  });
-});
-
-const getOne = (sql, params) => new Promise((resolve, reject) => {
-  db.get(sql, params, (err, row) => {
-    if (err) reject(err);
-    else resolve(row);
-  });
-});
 
 // --- GET: LEGGI PROFILO + STATISTICHE (Usato da AuthContext e Profilo) ---
 export async function GET(request) {
@@ -31,21 +16,21 @@ export async function GET(request) {
 
     if (!userSession) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    // Recuperiamo i dati completi dal DB
-    const userProfile = await getOne(
-      "SELECT id, name, surname, email, country, profile_image, created_at FROM users WHERE id = ?",
-      [userSession.id]
-    );
+    // --- Recupero Profilo ---
+    const users = await sql`SELECT id, name, surname, email, country, profile_image, created_at FROM users WHERE id = ${userSession.id}`;
+    const userProfile = users[0];
 
     // Statistiche
-    const workoutsCount = await getOne("SELECT COUNT(*) as count FROM workouts WHERE user_id = ?", [userSession.id]);
-    const exercisesCount = await getOne("SELECT COUNT(*) as count FROM exercises WHERE user_id = ? AND is_deleted = 0", [userSession.id]);
+    // --- Recupero Statistiche (Conteggi) ---
+    // In Postgres, COUNT(*) restituisce spesso una stringa, quindi usiamo parseInt per sicurezza
+    const workoutRes = await sql`SELECT COUNT(*) FROM workouts WHERE user_id = ${userSession.id}`;
+    const exerciseRes = await sql`SELECT COUNT(*) FROM exercises WHERE user_id = ${userSession.id} AND is_deleted = false`;
 
     const responseData = {
       ...userProfile,
       stats: {
-        workouts: workoutsCount?.count || 0, // ? È un optional chaining per evitare errori se null. Restituisce undefined invece di lanciare errore
-        exercises: exercisesCount?.count || 0
+        workouts: parseInt(workoutRes[0].count) || 0,
+        exercises: parseInt(exerciseRes[0].count) || 0
       }
     };
     // La sintassi user : serve per incapsuale dati dentro la chiave "user"
@@ -69,15 +54,16 @@ export async function PUT(request) {
     const { name, surname, country, profile_image, new_password } = body;
 
     // 1. Aggiorna i dati anagrafici base
-    await run(
-      `UPDATE users SET name = ?, surname = ?, country = ?, profile_image = ? WHERE id = ?`,
-      [name, surname, country, profile_image, userSession.id]
-    );
+    await sql`
+  UPDATE users 
+  SET name = ${name}, surname = ${surname}, country = ${country}, profile_image = ${profile_image} 
+  WHERE id = ${userSession.id}
+`;
 
     // 2. SE c'è una nuova password, la criptiamo e la aggiorniamo
     if (new_password && new_password.trim() !== '') {
       const hashedPassword = await bcrypt.hash(new_password, 10);
-      await run("UPDATE users SET password = ? WHERE id = ?", [hashedPassword, userSession.id]);
+      await sql`UPDATE users SET password = ${hashedPassword} WHERE id = ${userSession.id}`;
     }
 
     // 3. AGGIORNA SESSIONE IN MEMORIA (Fondamentale per vedere le modifiche subito!)
@@ -105,7 +91,7 @@ export async function DELETE(request) {
     if (!userSession) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     // Elimina dal DB
-    await run("DELETE FROM users WHERE id = ?", [userSession.id]);
+    await sql`DELETE FROM users WHERE id = ${userSession.id}`;
 
     // Pulisce sessione e cookie
     delete global.sessions[sessionId];

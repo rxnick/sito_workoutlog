@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 /* UUID (Universally Unique Identifier) è un identificatore lungo 128 bit (122 bit la v4).
 Esistono più versioni di UUID, e la v4 è quella basata su numeri casuali*/
 import { v4 as uuidv4 } from 'uuid';
-import db from '../../../lib/db'; 
+import sql from '../../../lib/db';
 import { cookies } from 'next/headers';
 
 // 
@@ -19,16 +19,9 @@ export async function POST(request) {
     console.log(`Tentativo di login per: ${email}`); // LOG 1
 
     // Cerca Utente
-    const user = await new Promise((resolve, reject) => {
-      // Nota: ho aggiunto il controllo degli errori
-      db.get('SELECT * FROM users WHERE email = ?', [email], (err, row) => {
-        if (err) {
-          console.error("❌ Errore SQL:", err); // LOG 2
-          reject(err);
-        }
-        resolve(row);
-      });
-    });
+    const users = await sql`SELECT * FROM users WHERE email = ${email}`;
+    // Ricorda solo che Supabase restituisce sempre una lista (array), quindi user = users[0] serve a estrarre l'unico utente trovato.
+    const user = users[0]; // Prendi il primo risultato dell'array
 
     if (!user) {
       console.log("❌ Utente non trovato nel DB"); // LOG 3
@@ -54,7 +47,7 @@ export async function POST(request) {
     global.sessions[sessionId] = {
       id: user.id,
       name: user.name,
-      surname: user.surname, 
+      surname: user.surname,
       email: user.email,
       country: user.country
     };
@@ -62,8 +55,8 @@ export async function POST(request) {
     console.log("✅ Login riuscito! Session ID creato.");
 
     // Inizializziamo il gestore dei cookie di Next.js
-    const cookieStore = await cookies(); 
-    
+    const cookieStore = await cookies();
+
     // Calcoliamo 1 giorno in secondi: 60 sec * 60 min * 24 h
     const age = 60 * 60 * 24;
 
@@ -77,7 +70,7 @@ export async function POST(request) {
     return NextResponse.json({ message: 'Login OK', user });
 
   } catch (error) {
-    console.error("🔥 ERRORE SERVER CRITICO:", error); 
+    console.error("🔥 ERRORE SERVER CRITICO:", error);
     return NextResponse.json({ error: error.message || 'Errore del server' }, { status: 500 });
   }
 }

@@ -1,28 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import db from '../../../lib/db';
-
-// --- HELPER DATABASE MIGLIORATI ---
-const run = (sql, params) => new Promise((resolve, reject) => {
-  db.run(sql, params, function(err) {
-    if (err) reject(err);
-    else resolve(this);
-  });
-});
-
-const getAll = (sql, params) => new Promise((resolve, reject) => {
-  db.all(sql, params, (err, rows) => {
-    if (err) reject(err);
-    else resolve(rows);
-  });
-});
-
-const getOne = (sql, params) => new Promise((resolve, reject) => {
-  db.get(sql, params, (err, row) => {
-    if (err) reject(err);
-    else resolve(row);
-  });
-});
+import sql from '../../../lib/db';
 
 // --- GET: OTTIENI LISTA ESERCIZI ---
 export async function GET(request) {
@@ -36,30 +14,35 @@ export async function GET(request) {
 
     if (!user) return NextResponse.json([], { status: 401 });
 
-    let sql = `
-      SELECT e.*, u.name as creator_name 
-      FROM exercises e
-      JOIN users u ON e.user_id = u.id
-      WHERE (e.is_public = 1 OR e.user_id = ?)
-      AND e.is_deleted = 0
-    `;
-    
-    const params = [user.id];
-
+    // Cerca questo blocco e sostituiscilo:
+    let exercises;
     if (query) {
-      sql += ` AND (e.name LIKE ? OR e.muscle_group LIKE ?)`;
-      params.push(`%${query}%`, `%${query}%`);
+      const searchTerm = `%${query}%`;
+      exercises = await sql`
+    SELECT e.*, u.name as creator_name 
+    FROM exercises e
+    JOIN users u ON e.user_id = u.id
+    WHERE (e.is_public = true OR e.user_id = ${user.id})
+    AND e.is_deleted = false
+    AND (e.name ILIKE ${searchTerm} OR e.muscle_group ILIKE ${searchTerm})
+    ORDER BY e.name ASC
+  `;
+    } else {
+      exercises = await sql`
+    SELECT e.*, u.name as creator_name 
+    FROM exercises e
+    JOIN users u ON e.user_id = u.id
+    WHERE (e.is_public = true OR e.user_id = ${user.id})
+    AND e.is_deleted = false
+    ORDER BY e.name ASC
+  `;
     }
-
-    sql += ` ORDER BY e.name ASC`;
-
-    const exercises = await getAll(sql, params);
     return NextResponse.json(exercises);
 
   } catch (error) {
     console.error("GET Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
-  }w
+  }
 }
 
 // --- POST: CREA NUOVO ESERCIZIO ---
@@ -76,12 +59,13 @@ export async function POST(request) {
 
     if (!name) return NextResponse.json({ error: 'Nome obbligatorio' }, { status: 400 });
 
-    const result = await run(
-      `INSERT INTO exercises (name, muscle_group, description, image_url, is_public, user_id) VALUES (?, ?, ?, ?, ?, ?)`,
-      [name, muscle_group || 'Altro', description || '', image_url || '', is_public ? 1 : 0, user.id]
-    );
+    const result = await sql`
+  INSERT INTO exercises (name, muscle_group, description, image_url, is_public, user_id) 
+  VALUES (${name}, ${muscle_group || 'Altro'}, ${description || ''}, ${image_url || ''}, ${is_public ? true : false}, ${user.id})
+  RETURNING id
+`;
 
-    return NextResponse.json({ id: result.lastID, message: 'Esercizio creato' });
+    return NextResponse.json({ id: result[0].id, message: 'Esercizio creato' });
 
   } catch (error) {
     console.error("POST Error:", error);
@@ -95,7 +79,7 @@ export async function PUT(request) {
     const cookieStore = await cookies();
     const sessionId = cookieStore.get('session_id')?.value;
     const user = global.sessions?.[sessionId];
-    
+
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
@@ -103,12 +87,15 @@ export async function PUT(request) {
 
     if (!id || !name) return NextResponse.json({ error: 'Dati mancanti' }, { status: 400 });
 
-    await run(
-      `UPDATE exercises 
-       SET name = ?, muscle_group = ?, description = ?, image_url = ?, is_public = ? 
-       WHERE id = ? AND user_id = ?`,
-      [name, muscle_group, description, image_url || '', is_public ? 1 : 0, id, user.id]
-    );
+    await sql`
+  UPDATE exercises 
+  SET name = ${name}, 
+      muscle_group = ${muscle_group}, 
+      description = ${description}, 
+      image_url = ${image_url || ''}, 
+      is_public = ${is_public ? true : false} 
+  WHERE id = ${id} AND user_id = ${user.id}
+`;
 
     return NextResponse.json({ message: 'Esercizio aggiornato' });
 
@@ -135,18 +122,16 @@ export async function DELETE(request) {
     console.log(`🗑️ Tentativo eliminazione esercizio ID: ${id} da parte di User: ${user.id}`);
 
     // 1. Controlla se l'esercizio esiste ed è dell'utente
-    const targetExercise = await getOne(
-        "SELECT id FROM exercises WHERE id = ? AND user_id = ?", 
-        [id, user.id]
-    );
+    const exercises = await sql`
+    SELECT id FROM exercises WHERE id = ${id} AND user_id = ${user.id}
+`;
 
-    if (!targetExercise) {
-       console.warn(`⚠️ Esercizio ${id} non trovato o non appartiene all'utente.`);
-       return NextResponse.json({ error: 'Non autorizzato o esercizio non trovato' }, { status: 403 });
+    if (exercises.length === 0) {
+      return NextResponse.json({ error: 'Non autorizzato o esercizio non trovato' }, { status: 403 });
     }
 
-    // Facciamo  UPDATE per "spegnere" l'esercizio
-    await run("UPDATE exercises SET is_deleted = 1 WHERE id = ?", [id]);
+    // 2. Facciamo UPDATE per "spegnere" l'esercizio (soft delete)
+    await sql`UPDATE exercises SET is_deleted = true WHERE id = ${id}`;
 
     console.log(`✅ Esercizio ${id} archiviato con successo.`);
     return NextResponse.json({ message: 'Eliminato con successo' });
