@@ -55,7 +55,7 @@ const HistoryPage = () => {
       )}
 
       <div className="workouts-grid">
-        {workouts.map(workout => (
+        {workouts?.map(workout => (
           <div key={workout.id} className="workout-card">
 
             <span className="workout-date">{formatDate(workout.date)}</span>
