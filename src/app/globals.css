@@ -1,192 +1,144 @@
-/* Tema scuro */
-/* Colori di default (Tema Chiaro) */
+/* --- DEFINIZIONE VARIABILI COLORI --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --card-bg: #f5f5f5;
-  --primary: #0070f3;
+  /* Tema Chiaro (Default) */
+  --bg-body: #f4f4f4;
+  --bg-card: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-main: #333333;
   --text-muted: #666666;
+  --text-label: #555555;
+  --border-color: #cccccc;
+  --border-light: #dddddd;
+  --primary-blue: #007bff;
+  --primary-hover: #0056b3;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* Colori per il Tema Scuro (Automatico) */
+/* --- TEMA SCURO (Si attiva col sistema) --- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --card-bg: #1a1a1a;
-    --primary: #3291ff;
-    --text-muted: #a0a0a0;
+    --bg-body: #121212;      /* Nero molto scuro ma non puro */
+    --bg-card: #1e1e1e;      /* Grigio scuro per le card (stacca dallo sfondo) */
+    --bg-secondary: #2d2d2d;
+    --text-main: #eeeeee;    /* Bianco sporco (riposante) */
+    --text-muted: #b0b0b0;
+    --text-label: #cccccc;
+    --border-color: #444444;
+    --border-light: #333333;
+    --primary-blue: #3793ff; /* Un blu leggermente più chiaro per il buio */
+    --primary-hover: #1e70d1;
+    --shadow: rgba(0, 0, 0, 0.5); /* Ombra più marcata nel dark mode */
   }
 }
 
-/* Applica le variabili al corpo del sito */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: var(--background);
-  color: var(--foreground);
-  transition: background-color 0.3s ease;
+  background-color: var(--bg-body); /* Usiamo la variabile */
+  color: var(--text-main);          /* Usiamo la variabile */
+  transition: background-color 0.3s, color 0.3s; /* Transizione fluida */
 }
-
-.workout-card {
-  background-color: var(--card-bg);
-}
-
-/*
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;  Un grigino leggero di sfondo per tutto il sito
-}
-*/
 
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Serve per far funzionare correttamente height: 100vh */
 html, body {
   height: 100%;
 }
 
 /* --- PAGINA 404 e LOADING --- */
-
-.error-container, .loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 70vh; /* Occupa quasi tutto lo schermo */
-  text-align: center;
-  padding: 20px;
-}
-
-/* Stili 404 */
-.error-code {
-  font-size: 6rem;
-  font-weight: 800;
-  color: #007bff; /* Blu del sito */
-  margin: 0;
-  line-height: 1;
-}
-
 .error-title {
   font-size: 1.8rem;
-  color: #333;
+  color: var(--text-main);
   margin-top: 10px;
 }
 
 .error-desc {
-  color: #666;
+  color: var(--text-muted);
   max-width: 400px;
   margin-bottom: 30px;
   font-size: 1.1rem;
 }
 
-.btn-back-home {
-  background-color: #007bff;
-  color: white;
+.btn-back-home, .btn-primary {
+  background-color: var(--primary-blue);
+  color: white; /* Il testo sui bottoni resta bianco */
   padding: 12px 25px;
   border-radius: 30px;
-  text-decoration: none;
   font-weight: bold;
+  border: none;
+  cursor: pointer;
   transition: transform 0.2s, background 0.2s;
 }
 
-.btn-back-home:hover {
-  background-color: #0056b3;
+.btn-back-home:hover, .btn-primary:hover {
+  background-color: var(--primary-hover);
   transform: scale(1.05);
 }
 
-/* Stili Loading (Spinner che gira) */
+/* Spinner aggiornato */
 .spinner {
   width: 50px;
   height: 50px;
-  border: 5px solid #f3f3f3; /* Grigio chiaro */
-  border-top: 5px solid #007bff; /* Blu */
+  border: 5px solid var(--bg-secondary); 
+  border-top: 5px solid var(--primary-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 20px;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Container della card Password Dimenticata */
+/* --- AUTH CONTAINER (CARD) --- */
 .auth-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
-  background: white;
+  background: var(--bg-card); /* Cambia in base al tema */
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px var(--shadow);
   font-family: sans-serif;
 }
 
 .auth-title {
   text-align: center;
-  color: #333;
+  color: var(--text-main);
   margin-bottom: 20px;
 }
 
 .auth-desc {
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 15px;
   font-size: 0.95rem;
 }
 
 /* Input e Form */
-.form-group {
-  margin-bottom: 15px;
-}
-
 .form-label {
+  color: var(--text-label);
   font-size: 0.85rem;
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
-  color: #555;
 }
 
 .form-input {
   width: 100%;
   padding: 12px;
+  background: var(--bg-card); /* Input scuro nel dark mode */
+  color: var(--text-main);
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   font-size: 1rem;
-  box-sizing: border-box; /* Importante per non sbordare */
-}
-
-/* Bottoni */
-.btn-primary {
-  width: 100%;
-  padding: 12px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  margin-top: 10px;
-  transition: background 0.2s;
-}
-
-.btn-primary:hover {
-  background: #0056b3;
+  box-sizing: border-box;
 }
 
 .btn-secondary {
   width: 100%;
   padding: 12px;
-  background: #f8f9fa;
-  color: #333;
-  border: 1px solid #ddd;
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
@@ -194,62 +146,21 @@ html, body {
   margin-top: 10px;
 }
 
-.btn-secondary:hover {
-  background: #e2e6ea;
-}
-
-/* Messaggi di notifica */
-.message-box {
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.message-error {
-  background: #ffebee;
-  color: #c62828;
-}
-
-.message-info {
-  background: #e3f2fd;
-  color: #0d47a1;
-}
-
-/* Box Giallo per il codice simulato */
+/* Debug box e messaggi rimangono simili ma adattati */
 .debug-box {
-  background: #fff3cd;
+  background: #fff3cd; /* Giallo resta leggibile in entrambi */
   border: 1px solid #ffeeba;
   color: #856404;
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
-  text-align: center;
-  animation: fadeIn 0.5s;
-}
-
-.debug-code {
-  font-size: 1.5rem;
-  display: block;
-  margin: 5px 0;
-  letter-spacing: 3px;
-}
-
-.back-link {
-  text-align: center;
-  margin-top: 20px;
 }
 
 .link-blue {
-  color: #007bff;
-  text-decoration: none;
-}
-.link-blue:hover {
-  text-decoration: underline;
+  color: var(--primary-blue);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
