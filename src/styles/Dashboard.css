@@ -1,0 +1,159 @@
+.dashboard-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Benvenuto */
+.welcome-section {
+  margin-bottom: 30px;
+}
+
+.welcome-section h1 {
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.welcome-section p {
+  color: #666;
+}
+
+/* Titoli delle sezioni */
+.section-title {
+  text-align: left;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #444;
+  border-left: 4px solid #007bff;
+  padding-left: 10px;
+  margin-top: 30px; /* Più spazio sopra */
+}
+
+/* SEZIONE STATISTICHE (Numeri in alto) */
+.stats-section {
+  margin-bottom: 30px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonne fisse per i numeri */
+  gap: 15px;
+}
+
+.stat-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Linea divisoria */
+.divider {
+  border: 0;
+  height: 1px;
+  background: #eee;
+  margin: 40px 0;
+}
+
+/* GRIGLIA AZIONI (Pulsanti grandi) */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Un po' più piccoli */
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-bottom: 4px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-new { border-bottom-color: #2e7d32; }
+.card-history { border-bottom-color: #007bff; }
+.card-exercises { border-bottom-color: #ff9800; }
+
+.card-icon { font-size: 2rem; margin-bottom: 10px; }
+.card-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; color: #333; }
+.card-desc { font-size: 0.85rem; color: #777; }
+
+/* NUOVO: LISTA RECENTI (Diversa dai numeri) */
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recent-card-link {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.1s;
+}
+
+.recent-card-link:hover {
+  transform: scale(1.01);
+}
+
+.recent-item {
+  /* Eredita stat-card ma modifichiamo layout */
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-left: 5px solid #007bff; /* Striscia blu a sinistra */
+}
+
+.workout-date-badge {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.workout-name-list {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.arrow-icon {
+  color: #ccc;
+  font-weight: bold;
+}
+
+.loading-text { text-align: center; color: #666; margin-top: 50px; }

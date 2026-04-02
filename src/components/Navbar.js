@@ -19,7 +19,6 @@ const Navbar = () => {
 
       {/* --- SINISTRA: Logo + Identificativo Utente --- */}
       <div className={styles.brand}>
-        {/* LOGO */}
         <Link href={user ? "/dashboard" : "/"} onClick={closeMenu}>
           <Image src="/logo.png"
             alt="WorkoutLog Logo"
