@@ -1,63 +1,70 @@
 'use client';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AuthContext } from '../context/AuthContext';
+import styles from './Navbar.module.css'; 
 
 const Navbar = () => {
   const { user, logout, loading } = useContext(AuthContext);
+  // Stato per il menu del telefono (aperto/chiuso)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Funzione per chiudere il menu dopo aver cliccato un link
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <nav className="navbar">
+    <nav className={styles.navbar}>
 
       {/* --- SINISTRA: Logo + Saluto  --- */}
-      <div className="navbar-brand">
-        {/* LOGO */}
-        <Link href={user ? "/dashboard" : "/"}>
+      <div className={styles.brand}>
+        <Link href={user ? "/dashboard" : "/"} onClick={closeMenu}>
           <Image src="/logo.png"
             alt="WorkoutLog Logo"
-            // Dimensioni dell'immagine originale
             width={1024} 
             height={559}
-            className="navbar-logo"
-            priority // Carica l'immagine subito
+            className={styles.logo}
+            priority 
           />
         </Link>
 
-        {/* SALUTO */}
         {loading ? (
-          // Mettiamo un div vuoto per mantenere l'altezza
-          <div className="navbar-greeting"><br></br></div>
+          <div className={styles.greeting}><br></br></div>
         ) : user ?
-          <span className="navbar-greeting">
-            Ciao, {user.name}
-          </span> : <span className="navbar-greeting">
-            Benvenuto!
-          </span>}
-
+          <span className={styles.greeting}>Ciao, {user.name}</span> 
+          : 
+          <span className={styles.greeting}>Benvenuto!</span>
+        }
       </div>
 
-      {/* LINK A DESTRA */}
-      <div className="navbar-links">
+      {/* --- BOTTONE MENU HAMBURGER (Solo Telefono) --- */}
+      <button 
+        className={styles.menuToggle} 
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+      >
+        {isMenuOpen ? '✖' : '☰'} 
+      </button>
+
+      {/* --- LINK A DESTRA --- */}
+      {/* Se il menu è aperto, aggiunge la classe styles.linksOpen */}
+      <div className={`${styles.links} ${isMenuOpen ? styles.linksOpen : ''}`}>
+        
         {loading ? (
-          // Mettiamo un div vuoto per mantenere l'altezza
-          <div className="navbar-greeting"></div>
+          <div className={styles.greeting}></div>
         ) : user ? (
-          // UTENTE LOGGATO (Dashboard)
           <>
-            <Link href="/dashboard" className="nav-link">Dashboard</Link>
-            <Link href="/workouts/history" className="nav-link">Storico Allenamenti</Link>
-            <Link href="/exercises" className="nav-link">Esercizi</Link>
-            <Link href="/stats" className="nav-link">Statistiche</Link>
-            <Link href="/profile" className="nav-link">Profilo</Link>
-            <button onClick={logout} className="btn-logout-nav">Esci</button>
+            <Link href="/dashboard" className={styles.navLink} onClick={closeMenu}>Dashboard</Link>
+            <Link href="/workouts/history" className={styles.navLink} onClick={closeMenu}>Storico Allenamenti</Link>
+            <Link href="/exercises" className={styles.navLink} onClick={closeMenu}>Esercizi</Link>
+            <Link href="/stats" className={styles.navLink} onClick={closeMenu}>Statistiche</Link>
+            <Link href="/profile" className={styles.navLink} onClick={closeMenu}>Profilo</Link>
+            <button onClick={() => { logout(); closeMenu(); }} className={styles.btnLogout}>Esci</button>
           </>
         ) : (
-          // UTENTE NON LOGGATO (Home)
           <>
-            <Link href="/login" className="nav-link">Accedi</Link>
-            <Link href="/register" className="nav-link btn-register-nav">Registrati</Link>
+            <Link href="/login" className={styles.navLink} onClick={closeMenu}>Accedi</Link>
+            <Link href="/register" className={`${styles.navLink} ${styles.btnRegister}`} onClick={closeMenu}>Registrati</Link>
           </>
         )}
       </div>

@@ -3,6 +3,7 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Link from 'next/link';
+import styles from './Register.module.css';
 
 const Register = () => {
   const { register } = useContext(AuthContext);
@@ -18,9 +19,6 @@ const Register = () => {
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    // Aggiorna lo stato del form con i nuovi valori
-    // e.target.name è il nome del campo (name, surname, email, password, country)
-    // e.target.value è il valore inserito dall'utente
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -35,45 +33,42 @@ const Register = () => {
   };
 
   return (
-    /* CAMBIO CLASSE: register-container */
-    <div className="register-container">
-      <h2>Crea un Account 🚀</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Crea un Account 🚀</h2>
       
-      {error && <p className="error-msg">{error}</p>}
+      {error && <p className={styles.errorMsg}>{error}</p>}
 
       <form onSubmit={handleSubmit}>
-        {/* Ho aggiunto className="form-input" a tutti gli input */}
-        <div className="form-group">
-          <label>Nome:</label>
-          <input className="form-input" type="text" name="name" onChange={handleChange} required />
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Nome:</label>
+          <input className={styles.input} type="text" name="name" onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
-          <label>Cognome:</label>
-          <input className="form-input" type="text" name="surname" onChange={handleChange} required />
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Cognome:</label>
+          <input className={styles.input} type="text" name="surname" onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
-          <label>Luogo di nascita:</label>
-          <input className="form-input" type="text" name="country" onChange={handleChange} required />
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Luogo di nascita:</label>
+          <input className={styles.input} type="text" name="country" onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
-          <label>Email:</label>
-          <input className="form-input" type="email" name="email" onChange={handleChange} required />
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Email:</label>
+          <input className={styles.input} type="email" name="email" onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
-          <label>Password:</label>
-          <input className="form-input" type="password" name="password" onChange={handleChange} required />
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Password:</label>
+          <input className={styles.input} type="password" name="password" onChange={handleChange} required />
         </div>
 
-        {/* CAMBIO CLASSE: btn-register */}
-        <button type="submit" className="btn-register">Registrati</button>
+        <button type="submit" className={styles.btnRegister}>Registrati</button>
       </form>
 
-      <p className='p-login'>
-        Hai già un account? <Link href="/login" className='link-login'>Accedi qui</Link>
+      <p className={styles.footerText}>
+        Hai già un account? <Link href="/login" className={styles.link}>Accedi qui</Link>
       </p>
     </div>
   );

@@ -1,43 +1,55 @@
-/* --- DEFINIZIONE VARIABILI COLORI --- */
+/* --- 1. DEFINIZIONE VARIABILI COLORI --- */
 :root {
   /* Tema Chiaro (Default) */
   --bg-body: #f4f4f4;
   --bg-card: #ffffff;
   --bg-secondary: #f8f9fa;
+  
   --text-main: #333333;
   --text-muted: #666666;
   --text-label: #555555;
-  --border-color: #cccccc;
+  
   --border-light: #dddddd;
+  --border-input: #cccccc;
+  
   --primary-blue: #007bff;
   --primary-hover: #0056b3;
+  
   --shadow: rgba(0, 0, 0, 0.1);
+  --spinner-bg: #f3f3f3;
 }
 
-/* --- TEMA SCURO (Si attiva col sistema) --- */
+/* Quando il dispositivo è in Tema Scuro */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-body: #121212;      /* Nero molto scuro ma non puro */
-    --bg-card: #1e1e1e;      /* Grigio scuro per le card (stacca dallo sfondo) */
+    --bg-body: #121212;      
+    --bg-card: #1e1e1e;      
     --bg-secondary: #2d2d2d;
-    --text-main: #eeeeee;    /* Bianco sporco (riposante) */
+    
+    --text-main: #eeeeee;    
     --text-muted: #b0b0b0;
     --text-label: #cccccc;
-    --border-color: #444444;
+    
     --border-light: #333333;
-    --primary-blue: #3793ff; /* Un blu leggermente più chiaro per il buio */
+    --border-input: #444444;
+    
+    --primary-blue: #3793ff; 
     --primary-hover: #1e70d1;
-    --shadow: rgba(0, 0, 0, 0.5); /* Ombra più marcata nel dark mode */
+    
+    --shadow: rgba(0, 0, 0, 0.5);
+    --spinner-bg: #2d2d2d;
   }
 }
 
+/* --- 2. STILI GLOBALI BASE --- */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: var(--bg-body); /* Usiamo la variabile */
-  color: var(--text-main);          /* Usiamo la variabile */
-  transition: background-color 0.3s, color 0.3s; /* Transizione fluida */
+  /* USO LE VARIABILI QUI: */
+  background-color: var(--bg-body); 
+  color: var(--text-main);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 a {
@@ -49,7 +61,28 @@ html, body {
   height: 100%;
 }
 
-/* --- PAGINA 404 e LOADING --- */
+
+/* --- 3. CLASSI "VECCHIE" (Da modularizzare in futuro) --- */
+
+/* PAGINA 404 e LOADING */
+.error-container, .loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.error-code {
+  font-size: 6rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  margin: 0;
+  line-height: 1;
+}
+
 .error-title {
   font-size: 1.8rem;
   color: var(--text-main);
@@ -63,39 +96,42 @@ html, body {
   font-size: 1.1rem;
 }
 
-.btn-back-home, .btn-primary {
+.btn-back-home {
   background-color: var(--primary-blue);
-  color: white; /* Il testo sui bottoni resta bianco */
+  color: white; /* Il testo sui bottoni primari resta sempre bianco */
   padding: 12px 25px;
   border-radius: 30px;
+  text-decoration: none;
   font-weight: bold;
-  border: none;
-  cursor: pointer;
   transition: transform 0.2s, background 0.2s;
 }
 
-.btn-back-home:hover, .btn-primary:hover {
+.btn-back-home:hover {
   background-color: var(--primary-hover);
   transform: scale(1.05);
 }
 
-/* Spinner aggiornato */
 .spinner {
   width: 50px;
   height: 50px;
-  border: 5px solid var(--bg-secondary); 
-  border-top: 5px solid var(--primary-blue);
+  border: 5px solid var(--spinner-bg); 
+  border-top: 5px solid var(--primary-blue); 
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 20px;
 }
 
-/* --- AUTH CONTAINER (CARD) --- */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* PASSWORD DIMENTICATA & AUTH CONTAINER */
 .auth-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
-  background: var(--bg-card); /* Cambia in base al tema */
+  background: var(--bg-card); /* Adatta la card */
   border-radius: 10px;
   box-shadow: 0 4px 15px var(--shadow);
   font-family: sans-serif;
@@ -113,24 +149,45 @@ html, body {
   font-size: 0.95rem;
 }
 
-/* Input e Form */
+.form-group {
+  margin-bottom: 15px;
+}
+
 .form-label {
-  color: var(--text-label);
   font-size: 0.85rem;
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
+  color: var(--text-label);
 }
 
 .form-input {
   width: 100%;
   padding: 12px;
-  background: var(--bg-card); /* Input scuro nel dark mode */
-  color: var(--text-main);
   border-radius: 5px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-input);
+  background-color: var(--bg-card); /* Input scuri di notte */
+  color: var(--text-main);
   font-size: 1rem;
   box-sizing: border-box;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
 }
 
 .btn-secondary {
@@ -146,21 +203,74 @@ html, body {
   margin-top: 10px;
 }
 
-/* Debug box e messaggi rimangono simili ma adattati */
+.btn-secondary:hover {
+  background: var(--border-input);
+}
+
+/* NOTIFICHE & DEBUG BOX (Lascio i colori originali perché devono "spiccare") */
+.message-box {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.message-error {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.message-info {
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+
 .debug-box {
-  background: #fff3cd; /* Giallo resta leggibile in entrambi */
+  background: #fff3cd;
   border: 1px solid #ffeeba;
   color: #856404;
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
+  text-align: center;
+  animation: fadeIn 0.5s;
+}
+
+.debug-code {
+  font-size: 1.5rem;
+  display: block;
+  margin: 5px 0;
+  letter-spacing: 3px;
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 20px;
 }
 
 .link-blue {
   color: var(--primary-blue);
+  text-decoration: none;
+}
+.link-blue:hover {
+  text-decoration: underline;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- FIX AUTOCOMPLETAMENTO BROWSER (DARK MODE) --- */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    /* Sostituisce lo sfondo azzurrino col tuo colore scuro */
+    -webkit-box-shadow: 0 0 0 30px var(--bg-card) inset !important;
+    /* Colora il testo di bianco */
+    -webkit-text-fill-color: var(--text-main) !important;
+    /* Evita flash di colore strani */
+    transition: background-color 5000s ease-in-out 0s;
 }

@@ -3,7 +3,8 @@
 import { useContext, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext'; 
+import styles from './Home.module.css'; 
 
 export default function Home() {
   const { user, loading } = useContext(AuthContext);
@@ -16,28 +17,26 @@ export default function Home() {
   }, [user, loading, router]);
 
   if (loading) {
-    return <div style={{textAlign: 'center', marginTop: '50px'}}>Caricamento...</div>;
+    /* NIENTE PIÙ CSS INLINE QUI! 🎉 */
+    return <div className={styles.loadingState}>Caricamento...</div>;
   }
 
   return (
-    // Usa le classi di Home.css
-    <div className="home-container">
+    <div className={styles.container}>
       
-      <h1 className="home-title">WorkoutLog 💪</h1>
+      <h1 className={styles.title}>WorkoutLog 💪</h1>
       
-      <p className="home-subtitle">
+      <p className={styles.subtitle}>
         Il tuo diario di allenamento digitale.<br />
         Tieni traccia dei tuoi progressi, crea schede e supera i tuoi limiti.
       </p>
 
-      <div style={{ marginTop: '30px' }}>
-        {/* Classi combinate: btn-home (generale) + btn-primary (colore blu) */}
-        <Link href="/register" className="btn-home btn-primary">
+      <div className={styles.buttonGroup}>
+        <Link href="/register" className={`${styles.btn} ${styles.btnPrimary}`}>
           Inizia Ora
         </Link>
 
-        {/* Classi combinate: btn-home (generale) + btn-secondary (colore grigio) */}
-        <Link href="/login" className="btn-home btn-secondary">
+        <Link href="/login" className={`${styles.btn} ${styles.btnSecondary}`}>
           Accedi
         </Link>
       </div>

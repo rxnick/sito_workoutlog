@@ -1,0 +1,122 @@
+/* Navbar.module.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Permette di andare a capo */
+  background-color: var(--bg-card, #ffffff); /* Usa variabile, o bianco di default */
+  padding: 10px 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: auto;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+  cursor: pointer;
+  display: block;
+}
+
+.greeting {
+  font-size: 0.85rem;
+  color: var(--text-main, black); /* Si adatta al tema */
+  font-weight: 600;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: var(--text-main, #333);
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #007bff;
+}
+
+.btnRegister {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.btnRegister:hover {
+  background-color: #0056b3;
+}
+
+.btnLogout {
+  background-color: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+.btnLogout:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* --- IL TRUCCO PER IL TELEFONO (MEDIA QUERY) --- */
+/* Il bottone menu è nascosto su PC */
+.menuToggle {
+  display: none; 
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-main, black);
+}
+
+/* Quando lo schermo è più piccolo di 768px (Tablet/Telefoni) */
+@media (max-width: 768px) {
+  .menuToggle {
+    display: block; /* Mostra il bottone menu */
+  }
+
+  .links {
+    display: none; /* Nascondi i link di default */
+    flex-direction: column;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-card, #ffffff);
+    padding: 20px;
+    /* POSIZIONE DELL'OMBRA: X=0 (centrata in orizzontale), Y=4px (l'ombra verso il basso), Sfocatura=15px, Colore=Azzurro 40% */
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    /* LE 3 RIGHE AGGIUNTE PER CENTRARE PERFETTAMENTE: */
+    box-sizing: border-box; /* Il padding non allarga più il box! */
+    align-items: center;    /* Allinea gli elementi al centro */
+    text-align: center;     /* Centra il testo */
+  }
+
+  /* Quando il menu è aperto (aggiungeremo questa classe in JS) */
+  .linksOpen {
+    display: flex; 
+  }
+}

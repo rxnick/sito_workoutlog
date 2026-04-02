@@ -1,0 +1,83 @@
+/* Home.module.css */
+.container {
+  text-align: center;
+  margin-top: 80px;
+  padding: 0 20px; /* Aggiunto per non far toccare il testo ai bordi sul telefono */
+  font-family: 'Arial', sans-serif;
+}
+
+.title {
+  font-size: 3rem;
+  color: var(--text-main); /* Si adatta alla notte */
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted); /* Si adatta alla notte */
+  margin-bottom: 40px;
+  line-height: 1.5; /* Rende le righe più leggibili */
+}
+
+/* Contenitore per i bottoni */
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Spazio tra i bottoni */
+  flex-wrap: wrap; /* Se non c'è spazio, va a capo in automatico! */
+}
+
+.btn {
+  padding: 12px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, background-color 0.2s;
+  font-weight: bold;
+  text-align: center;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btnPrimary {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.btnPrimary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btnSecondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+}
+
+.btnSecondary:hover {
+  background-color: var(--border-input);
+}
+
+/* MEDIA QUERY: Per schermi piccoli (Telefoni) */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.2rem; /* Rimpicciolisce un po' il titolo */
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+  .btn {
+    width: 100%; /* I bottoni prendono tutto lo schermo e si mettono in colonna */
+  }
+}
+
+.loadingState {
+  text-align: center;
+  margin-top: 50px;
+  color: var(--text-muted); /* Così si adatta anche al tema scuro! */
+  font-weight: bold;
+}

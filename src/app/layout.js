@@ -1,29 +1,28 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { AuthProvider } from '../context/AuthContext'; // Importa il context
+import { AuthProvider } from '../context/AuthContext'; 
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-// === IMPORTIAMO I CSS ===
-import './globals.css';          // Reset di base
-import '../styles/Layout.css';   // Struttura pagina
-import '../styles/Navbar.css';   // Stile menu
-import '../styles/Footer.css';   // Stile footer
-import '../styles/Home.css';     // Stile home page
-import '../styles/Login.css';    // Stile login
-import '../styles/Register.css'; // Stile registrazione
-import '../styles/Dashboard.css';// Stile dashboard
-import '../styles/Workouts.css'; // Stile allenamenti
-import '../styles/Exercises.css'; // Stile gestione esercizi
-import '../styles/ConfirmModal.css'; // Stile modale conferma
-import '../styles/Profile.css'; // Stile profilo utente
-import '../styles/Feedback.css'; // Stile feedback
-import '../styles/Stats.css'; // Stile statistiche
 
-//L'oggetto metadata controlla quello che appare nella linguettta del browser (in alto)
+// === IMPORTIAMO I CSS GLOBALI (Solo le variabili) ===
+import './globals.css';          
+
+// === IMPORTIAMO IL MODULO DEL LAYOUT ===
+import styles from './Layout.module.css';
+
+// === CSS VECCHI (Li elimineremo man mano che li convertiamo in moduli) ===
+import '../styles/Dashboard.css';
+import '../styles/Workouts.css'; 
+import '../styles/Exercises.css'; 
+import '../styles/ConfirmModal.css'; 
+import '../styles/Profile.css'; 
+import '../styles/Feedback.css'; 
+import '../styles/Stats.css'; 
+
 export const metadata = {
   title: "WorkoutLog", 
   description: "Tieni traccia dei tuoi allenamenti e migliora le tue performance con WorkoutLog!",
   icons: {
-    icon: "/logo.png" // Icona della linguetta del browser
+    icon: "/logo.png" 
   }
 };
 
@@ -32,10 +31,10 @@ export default function RootLayout({ children }) {
     <html lang="it">
       <body>
         <AuthProvider>
-          <div className="app-layout">
+          {/* Usiamo le classi dal modulo! */}
+          <div className={styles.appLayout}>
             <Navbar />
-            <div className="page-content">
-              {/*children rappresenta il contenuto specifico di ogni pagina*/}
+            <div className={styles.pageContent}>
               {children} 
             </div>
             <Footer />

@@ -1,0 +1,83 @@
+/* Register.module.css */
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 25px;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  background-color: var(--bg-card); /* Si adatta alla notte! */
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.title {
+  text-align: center;
+  color: var(--text-main);
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-label);
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: var(--bg-card);
+  color: var(--text-main);
+}
+
+.btnRegister {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.btnRegister:hover {
+  background-color: var(--primary-hover);
+}
+
+.errorMsg {
+  color: #ff4d4f; 
+  background-color: rgba(255, 0, 0, 0.1); 
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.footerText {
+  margin-top: 15px; 
+  text-align: center;
+  color: var(--text-main);
+}
+
+.link {
+  color: var(--primary-blue); 
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
