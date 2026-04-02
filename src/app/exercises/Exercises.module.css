@@ -1,0 +1,236 @@
+/* Exercises.module.css */
+
+.container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.pageTitle {
+  text-align: center;
+  color: var(--text-main, #2c3e50);
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+/* --- BARRA DI RICERCA --- */
+.searchBarContainer {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 1px solid var(--border-light, #ddd);
+  font-size: 1rem;
+  background-color: var(--bg-card, #fff);
+  color: var(--text-main, #333);
+  box-shadow: 0 2px 5px var(--shadow, rgba(0,0,0,0.05));
+  transition: all 0.3s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-blue, #007bff);
+  box-shadow: 0 4px 10px var(--shadow, rgba(0,123,255,0.2));
+}
+
+/* --- FILTRI --- */
+.filtersContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: 1px solid var(--border-light, #ddd);
+  background-color: var(--bg-card, white);
+  color: var(--text-main, #555);
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+  min-width: 150px;
+  transition: border-color 0.2s;
+}
+
+.filterSelect:focus {
+  border-color: var(--primary-blue, #007bff);
+}
+
+/* --- FORM --- */
+.addExerciseForm {
+  background-color: var(--bg-card, #ffffff);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--shadow, rgba(0,0,0,0.05));
+  margin-bottom: 50px;
+  border: 1px solid var(--border-light, #eee);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.formTitle {
+  margin-top: 0;
+  color: var(--primary-blue, #007bff);
+  margin-bottom: 20px;
+}
+
+.formRow {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.formCol { flex: 1; }
+
+.formLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-muted, #555);
+}
+
+.formInput, .formTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid var(--border-light, #ddd);
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--bg-secondary, #fff);
+  color: var(--text-main, #333);
+}
+
+.formTextarea { resize: vertical; min-height: 80px; }
+
+.checkboxRow {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: var(--text-main, #555);
+}
+
+.formActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* --- LISTA E CARD --- */
+.exercisesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.exerciseCard {
+  background: var(--bg-card, white);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow, rgba(0,0,0,0.06));
+  border: 1px solid var(--border-light, #f0f0f0);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.exerciseCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--shadow, rgba(0,0,0,0.1));
+}
+
+.borderPublic { border-left: 6px solid var(--primary-blue, #007bff); }
+.borderPrivate { border-left: 6px solid #ff9800; }
+
+.exerciseImg {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border-light, #eee);
+}
+
+.exerciseContent { padding: 20px; }
+
+.exerciseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.exerciseName {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-main, #333);
+  font-weight: 700;
+}
+
+.exerciseActions { display: flex; gap: 5px; }
+
+.btnIcon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btnIcon:hover { background-color: var(--bg-secondary, #f1f1f1); }
+.btnIconEdit { color: #ff9800; }
+.btnIconDelete { color: #dc3545; }
+
+.muscleTag {
+  background-color: var(--bg-secondary, #e3f2fd);
+  color: var(--primary-blue, #0d47a1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.exerciseDesc {
+  color: var(--text-muted, #666);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.exerciseFooter {
+  border-top: 1px solid var(--border-light, #eee);
+  padding-top: 10px;
+  font-size: 0.85rem;
+  color: var(--text-muted, #888);
+}
+
+.loadingText, .emptyState { 
+  text-align: center; 
+  color: var(--text-muted, #666); 
+  margin-top: 40px; 
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .formRow { flex-direction: column; gap: 0; }
+  .filtersContainer { flex-direction: column; align-items: center; }
+  .filterSelect { width: 100%; max-width: 400px; }
+}

@@ -1,0 +1,111 @@
+/* ExerciseDetail.module.css */
+
+.detailContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.btnBack {
+  background: transparent;
+  border: 1px solid var(--border-light, #ddd);
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-muted, #555);
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btnBack:hover {
+  background: var(--bg-secondary, #f5f5f5);
+}
+
+.detailCard {
+  background: var(--bg-card, white);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px var(--shadow, rgba(0,0,0,0.08));
+  margin-bottom: 0;
+}
+
+.imgContainer {
+  width: 100%;
+  height: 350px;
+  background-color: var(--bg-secondary, #f0f0f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgPlaceholder {
+  color: var(--text-muted, #aaa);
+  font-size: 1.5rem;
+}
+
+.content {
+  padding: 30px;
+}
+
+.title {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+  color: var(--text-main, #333);
+  margin-top: 0;
+}
+
+.badges {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.badge {
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.badgeMuscle {
+  background: var(--bg-secondary, #e3f2fd);
+  color: var(--primary-blue, #007bff);
+}
+
+.badgePublic {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badgePrivate {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.author {
+  color: var(--text-muted, #777);
+  font-size: 0.9rem;
+}
+
+.desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-main, #555);
+  margin-top: 20px;
+  border-top: 1px solid var(--border-light, #eee);
+  padding-top: 20px;
+}
+
+.loadingText { text-align: center; color: var(--text-muted, #666); margin-top: 40px; }
+.errorText { text-align: center; color: #d32f2f; margin-top: 40px; }

@@ -1,4 +1,6 @@
 import React from 'react';
+// IMPORTIAMO IL NUOVO MODULO CSS
+import styles from './ConfirmModal.module.css';
 
 const ConfirmModal = ({
   isOpen,
@@ -13,30 +15,30 @@ const ConfirmModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
 
-        <div className="modal-header">
-          <h3 className={isDanger ? "text-danger" : "text-success"}>
+        <div className={styles.modalHeader}>
+          <h3 className={isDanger ? styles.textDanger : styles.textSuccess}>
             {title}
           </h3>
         </div>
 
-        <div className="modal-body">
+        <div className={styles.modalBody}>
           <p>{message}</p>
         </div>
 
-        <div className="modal-footer">
+        <div className={styles.modalFooter}>
           {/* Mostra il tasto Annulla solo se cancelText esiste */}
           {cancelText && (
-            <button className="btn-cancel" onClick={onClose}>
+            <button className={styles.btnCancel} onClick={onClose}>
               {cancelText}
             </button>
           )}
 
           <button
             // Sceglie la classe CSS giusta in base a isDanger
-            className={isDanger ? "btn-confirm" : "btn-success"}
+            className={isDanger ? styles.btnConfirm : styles.btnSuccess}
             onClick={onConfirm}
           >
             {confirmText}

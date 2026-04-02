@@ -4,6 +4,9 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
 import Link from 'next/link';
 
+// --- IMPORTIAMO IL MODULO CSS ---
+import styles from './History.module.css';
+
 const HistoryPage = () => {
   const { user } = useContext(AuthContext);
   const [workouts, setWorkouts] = useState([]);
@@ -14,29 +17,23 @@ const HistoryPage = () => {
       fetch('/api/workouts')
         .then(res => res.json())
         .then(data => {
-          // --- IL TRUCCO È QUI ---
-          // Se data è un array [], caricalo. 
-          // Se data è un oggetto {error:...} (perché sei stato sloggato), metti []
           setWorkouts(Array.isArray(data) ? data : []);
           setLoading(false);
         })
         .catch(err => {
           console.error(err);
-          setWorkouts([]); // Paracadute in caso di errore di rete
+          setWorkouts([]); 
           setLoading(false);
         });
     }
   }, [user]);
 
-  // --- FUNZIONE PER FORMATTARE LA DATA ---
   const formatDate = (dateString) => {
     if (!dateString) return '';
-    // Crea un oggetto Data
     const date = new Date(dateString);
-    // Trasforma in Italiano (giorno numerico, mese lungo, anno numerico)
     return date.toLocaleDateString('it-IT', {
       day: 'numeric',
-      month: 'long', // Usa 'short' se vuoi "Gen", 'numeric' se vuoi "01"
+      month: 'long', 
       year: 'numeric',
     });
   };
@@ -44,40 +41,43 @@ const HistoryPage = () => {
   if (!user) return null;
 
   return (
-    <div className="workouts-container">
+    // Usa styles.workoutsContainer
+    <div className={styles.workoutsContainer}>
 
-      <h1 className="page-title">
+      <h1 className={styles.pageTitle}>
         Storico Allenamenti 📅
       </h1>
 
-      {loading && <p className="loading-text">Caricamento...</p>}
+      {loading && <p className={styles.loadingText}>Caricamento...</p>}
 
       {!loading && workouts.length === 0 && (
-        <div className="empty-state">
+        <div className={styles.emptyState}>
           <p>Non hai ancora registrato nessun allenamento.</p>
-          <Link href="/workouts/new" className="btn-start-now">
+          <Link href="/workouts/new" className={styles.btnStartNow}>
             Inizia il primo!
           </Link>
         </div>
       )}
 
-      <div className="workouts-grid">
+      <div className={styles.workoutsGrid}>
         {workouts?.map(workout => (
-          <div key={workout.id} className="workout-card">
+          <div key={workout.id} className={styles.workoutCard}>
 
-            <span className="workout-date">{formatDate(workout.date)}</span>
-            <h3 className="workout-title">{workout.name}</h3>
+            <span className={styles.workoutDate}>{formatDate(workout.date)}</span>
+            <h3 className={styles.workoutTitle}>{workout.name}</h3>
+            
             {workout.start_time && (
-              <span className="workout-time-info">
+              <span className={styles.workoutTimeInfo}>
                 ⌚ {workout.start_time} - {workout.end_time}
               </span>
             )}
+            
             {workout.notes && (
-              <p className="workout-notes">📝 {workout.notes}</p>
+              <p className={styles.workoutNotes}>📝 {workout.notes}</p>
             )}
 
-            <div className="card-footer">
-              <Link href={`/workouts/${workout.id}`} className="btn-details">
+            <div className={styles.cardFooter}>
+              <Link href={`/workouts/${workout.id}`} className={styles.btnDetails}>
                 Vedi Dettagli →
               </Link>
             </div>

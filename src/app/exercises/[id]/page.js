@@ -5,6 +5,10 @@ import { AuthContext } from '../../../context/AuthContext';
 import Link from 'next/link';
 import ConfirmModal from '../../../components/ConfirmModal';
 
+// --- IMPORTIAMO I DUE MODULI SEPARATI ---
+import styles from './ExerciseDetail.module.css';
+import fStyles from './Feedback.module.css';
+
 const ExerciseDetailPage = ({ params }) => {
     const { id } = use(params);
     const { user } = useContext(AuthContext);
@@ -13,20 +17,12 @@ const ExerciseDetailPage = ({ params }) => {
     const [feedbacks, setFeedbacks] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Stato per il nuovo feedback
     const [newRating, setNewRating] = useState(0);
     const [newComment, setNewComment] = useState('');
     const [hoverRating, setHoverRating] = useState(0);
 
-    // CONFIGURAZIONE MODALE
     const [modalConfig, setModalConfig] = useState({
-        isOpen: false,
-        title: '',
-        message: '',
-        onConfirm: null,
-        isDanger: false,
-        confirmText: 'Ho capito',
-        showCancel: false
+        isOpen: false, title: '', message: '', onConfirm: null, isDanger: false, confirmText: 'Ho capito', showCancel: false
     });
 
     useEffect(() => {
@@ -35,18 +31,11 @@ const ExerciseDetailPage = ({ params }) => {
         }
     }, [user, id]);
 
-    // --- HELPER PER IL MODALE ---
     const closeModal = () => setModalConfig(prev => ({ ...prev, isOpen: false }));
 
     const showFeedback = (title, message, isError = false) => {
         setModalConfig({
-            isOpen: true,
-            title: title,
-            message: message,
-            isDanger: isError,
-            confirmText: "Ho capito",
-            showCancel: false, // Nasconde "Annulla" per i messaggi informativi
-            onConfirm: closeModal
+            isOpen: true, title: title, message: message, isDanger: isError, confirmText: "Ho capito", showCancel: false, onConfirm: closeModal
         });
     };
 
@@ -67,7 +56,6 @@ const ExerciseDetailPage = ({ params }) => {
         }
     };
 
-    // --- AGGIUNTA FEEDBACK  ---
     const handleSubmitFeedback = async (e) => {
         e.preventDefault();
         
@@ -80,17 +68,11 @@ const ExerciseDetailPage = ({ params }) => {
             const res = await fetch('/api/feedback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    exercise_id: id,
-                    rating: newRating,
-                    comment: newComment
-                })
+                body: JSON.stringify({ exercise_id: id, rating: newRating, comment: newComment })
             });
 
             if (res.ok) {
-                setNewRating(0);
-                setNewComment('');
-                loadData();
+                setNewRating(0); setNewComment(''); loadData();
                 showFeedback("Grazie! 🎉", "Il tuo feedback è stato pubblicato.");
             } else {
                 showFeedback("Errore", "Impossibile inviare il feedback.", true);
@@ -100,30 +82,21 @@ const ExerciseDetailPage = ({ params }) => {
         }
     };
 
-    // --- ELIMINAZIONE FEEDBACK ---
-    
-    // Click sul tasto elimina -> Apre modale
     const handleDeleteClick = (feedbackId) => {
         setModalConfig({
-            isOpen: true,
-            title: "Elimina Recensione 🗑️",
-            message: "Sei sicuro di voler rimuovere questa recensione?",
-            isDanger: true,
-            confirmText: "Elimina",
-            showCancel: true, // Qui serve il tasto Annulla
+            isOpen: true, title: "Elimina Recensione 🗑️", message: "Sei sicuro di voler rimuovere questa recensione?",
+            isDanger: true, confirmText: "Elimina", showCancel: true,
             onConfirm: () => confirmDelete(feedbackId)
         });
     };
 
-    // Conferma nel modale -> Esegue la fetch
     const confirmDelete = async (feedbackId) => {
         try {
             const res = await fetch(`/api/feedback?id=${feedbackId}`, { method: 'DELETE' });
             if (res.ok) {
-                loadData();
-                closeModal();
+                loadData(); closeModal();
             } else {
-                closeModal(); // Chiudi prima per mostrare errore pulito
+                closeModal();
                 setTimeout(() => showFeedback("Errore", "Impossibile eliminare.", true), 300);
             }
         } catch (err) {
@@ -132,90 +105,91 @@ const ExerciseDetailPage = ({ params }) => {
         }
     };
 
-    if (loading) return <div className="loading-text">Caricamento...</div>;
-    if (!exercise) return <div className="error-text">Esercizio non trovato.</div>;
+    if (loading) return <div className={styles.loadingText}>Caricamento...</div>;
+    if (!exercise) return <div className={styles.errorText}>Esercizio non trovato.</div>;
 
     return (
-        <div className="detail-container">
+        <div className={styles.detailContainer}>
 
+            {/* ZONA 1: DETTAGLIO ESERCIZIO (Usa styles) */}
             <Link href="/exercises">
-                <button className="btn-back">← Torna alla Libreria</button>
+                <button className={styles.btnBack}>← Torna alla Libreria</button>
             </Link>
 
-            <div className="detail-card">
-                <div className="detail-img-container">
+            <div className={styles.detailCard}>
+                <div className={styles.imgContainer}>
                     {exercise.image_url ? (
-                        <img src={exercise.image_url} alt={exercise.name} className="detail-img" />
+                        <img src={exercise.image_url} alt={exercise.name} className={styles.img} />
                     ) : (
-                        <div className="detail-img-placeholder">Nessuna Immagine 📷</div>
+                        <div className={styles.imgPlaceholder}>Nessuna Immagine 📷</div>
                     )}
                 </div>
 
-                <div className="detail-content">
-                    <h1 className="detail-title">{exercise.name}</h1>
+                <div className={styles.content}>
+                    <h1 className={styles.title}>{exercise.name}</h1>
 
-                    <div className="detail-badges">
-                        <span className="badge badge-muscle">{exercise.muscle_group}</span>
-                        <span className={`badge ${exercise.is_public ? 'badge-public' : 'badge-private'}`}>
+                    <div className={styles.badges}>
+                        <span className={`${styles.badge} ${styles.badgeMuscle}`}>{exercise.muscle_group}</span>
+                        <span className={`${styles.badge} ${exercise.is_public ? styles.badgePublic : styles.badgePrivate}`}>
                             {exercise.is_public ? '🌍 Pubblico' : '🔒 Privato'}
                         </span>
-                        <span className="detail-author">
+                        <span className={styles.author}>
                             Creato da: <strong>{exercise.creator_name || 'Tu'}</strong>
                         </span>
                     </div>
 
-                    <p className="detail-desc">{exercise.description || "Nessuna descrizione disponibile."}</p>
+                    <p className={styles.desc}>{exercise.description || "Nessuna descrizione disponibile."}</p>
                 </div>
             </div>
 
-            <div className="feedback-section">
-                <h2 className="section-title">Recensioni e Feedback ⭐</h2>
+            {/* ZONA 2: FEEDBACK E RECENSIONI (Usa fStyles) */}
+            <div className={fStyles.feedbackSection}>
+                <h2 className={fStyles.sectionTitle}>Recensioni e Feedback ⭐</h2>
 
-                <form onSubmit={handleSubmitFeedback} className="add-feedback-form">
-                    <h4 className="form-subtitle">Lascia la tua opinione</h4>
+                <form onSubmit={handleSubmitFeedback} className={fStyles.addFeedbackForm}>
+                    <h4 className={fStyles.formSubtitle}>Lascia la tua opinione</h4>
 
-                    <div className="star-rating-input" onMouseLeave={() => setHoverRating(0)}>
+                    <div className={fStyles.starRatingInput} onMouseLeave={() => setHoverRating(0)}>
                         {[1, 2, 3, 4, 5].map((star) => (
                             <span
                                 key={star}
-                                className={`star ${(hoverRating || newRating) >= star ? 'active' : ''}`}
+                                className={`${fStyles.star} ${(hoverRating || newRating) >= star ? fStyles.active : ''}`}
                                 onMouseEnter={() => setHoverRating(star)}
                                 onClick={() => setNewRating(star)}
                             >
                                 ★
                             </span>
                         ))}
-                        <span className="rating-count">
+                        <span className={fStyles.ratingCount}>
                             {newRating > 0 ? `${newRating}/5` : 'Vota'}
                         </span>
                     </div>
 
                     <textarea
-                        className="form-textarea"
+                        className={fStyles.formTextarea}
                         placeholder="Scrivi un commento (opzionale)..."
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                     ></textarea>
 
-                    <button type="submit" className="btn-primary btn-submit-feedback">Invia Recensione</button>
+                    <button type="submit" className={fStyles.btnSubmitFeedback}>Invia Recensione</button>
                 </form>
 
-                <div className="feedback-list">
-                    {feedbacks.length === 0 && <p className="feedback-empty">Nessuna recensione ancora. Sii il primo!</p>}
+                <div className={fStyles.feedbackList}>
+                    {feedbacks.length === 0 && <p className={fStyles.feedbackEmpty}>Nessuna recensione ancora. Sii il primo!</p>}
 
                     {feedbacks.map(fb => (
-                        <div key={fb.id} className="feedback-item">
-                            <div className="feedback-header">
-                                <span className="feedback-user">{fb.user_name} {fb.user_surname?.charAt(0)}.</span>
-                                <span className="feedback-stars-static">
+                        <div key={fb.id} className={fStyles.feedbackItem}>
+                            <div className={fStyles.feedbackHeader}>
+                                <span className={fStyles.feedbackUser}>{fb.user_name} {fb.user_surname?.charAt(0)}.</span>
+                                <span className={fStyles.feedbackStarsStatic}>
                                     {'★'.repeat(fb.rating)}{'☆'.repeat(5 - fb.rating)}
                                 </span>
                             </div>
-                            <p className="feedback-comment">{fb.comment}</p>
+                            <p className={fStyles.feedbackComment}>{fb.comment}</p>
 
                             {fb.user_id === user.id && (
-                                // QUI ORA USIAMO handleDeleteClick INVECE DI QUELLO VECCHIO
-                                <button onClick={() => handleDeleteClick(fb.id)} className="btn-delete-feedback">
+                                <button onClick={() => handleDeleteClick(fb.id)} className={fStyles.btnDeleteFeedback}>
                                     Elimina
                                 </button>
                             )}
@@ -224,16 +198,10 @@ const ExerciseDetailPage = ({ params }) => {
                 </div>
             </div>
 
-            {/* INSERIAMO IL MODALE ALLA FINE */}
             <ConfirmModal
-                isOpen={modalConfig.isOpen}
-                title={modalConfig.title}
-                message={modalConfig.message}
-                onConfirm={modalConfig.onConfirm}
-                onClose={closeModal}
-                confirmText={modalConfig.confirmText}
-                isDanger={modalConfig.isDanger}
-                cancelText={modalConfig.showCancel ? "Annulla" : null}
+                isOpen={modalConfig.isOpen} title={modalConfig.title} message={modalConfig.message}
+                onConfirm={modalConfig.onConfirm} onClose={closeModal} confirmText={modalConfig.confirmText}
+                isDanger={modalConfig.isDanger} cancelText={modalConfig.showCancel ? "Annulla" : null}
             />
 
         </div>

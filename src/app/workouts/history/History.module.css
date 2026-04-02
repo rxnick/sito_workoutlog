@@ -1,0 +1,132 @@
+/* History.module.css */
+
+.workoutsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pageTitle {
+  text-align: center;
+  margin: 30px 0;
+  color: var(--text-main, #333); /* Tema Scuro */
+}
+
+.loadingText, .errorText {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.2rem;
+  color: var(--text-muted, #666); /* Tema Scuro */
+}
+
+.errorText { 
+  color: #d32f2f; 
+}
+
+.emptyState {
+  text-align: center;
+  margin-top: 40px;
+  background: var(--bg-card, white); /* Tema Scuro */
+  padding: 40px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px var(--shadow, rgba(0,0,0,0.05)); /* Tema Scuro */
+}
+
+.emptyState p {
+  color: var(--text-muted, #777); /* Tema Scuro */
+  font-style: italic;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.btnStartNow {
+  display: inline-block;
+  background-color: var(--primary-blue, #007bff);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btnStartNow:hover {
+  background-color: #0056b3;
+}
+
+/* GRIGLIA CARD */
+.workoutsGrid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.workoutCard {
+  background: var(--bg-card, white); /* Tema Scuro */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px var(--shadow, rgba(0,0,0,0.05)); /* Tema Scuro */
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 6px solid #2e7d32; 
+  cursor: pointer;
+  position: relative;
+  display: flex; /* Aggiunto per spingere il footer in basso */
+  flex-direction: column; 
+}
+
+.workoutCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px var(--shadow, rgba(0,0,0,0.1)); /* Tema Scuro */
+}
+
+.workoutDate {
+  font-size: 0.85rem;
+  color: var(--text-muted, #888); /* Tema Scuro */
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.workoutTitle {
+  margin: 0 0 10px 0;
+  font-size: 1.4rem;
+  color: var(--text-main, #333); /* Tema Scuro */
+}
+
+.workoutTimeInfo {
+  font-size: 0.85rem;
+  color: var(--text-muted, #666); /* Tema Scuro */
+  margin-bottom: 10px;
+  display: block;
+}
+
+.workoutNotes {
+  color: var(--text-muted, #666); /* Tema Scuro */
+  font-size: 0.95rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 20px; /* Spazio per staccare dal footer */
+  flex-grow: 1; /* Riempie lo spazio vuoto spingendo giù il footer */
+}
+
+.cardFooter {
+  margin-top: auto; /* Si attacca in fondo alla card */
+  text-align: right; /* Mette il link a destra */
+  border-top: 1px solid var(--border-light, #eee); /* Tema Scuro */
+  padding-top: 15px;
+}
+
+.btnDetails {
+  color: var(--primary-blue, #007bff);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.btnDetails:hover {
+  text-decoration: underline;
+}

@@ -3,8 +3,11 @@
 import { useState, useEffect, useContext, use } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Serve per il redirect dopo l'eliminazione
-import ConfirmModal from '../../../components/ConfirmModal'; // Importiamo il modale
+import { useRouter } from 'next/navigation'; 
+import ConfirmModal from '../../../components/ConfirmModal'; 
+
+// --- IMPORTIAMO IL MODULO CSS ---
+import styles from './WorkoutDetail.module.css';
 
 const WorkoutDetailPage = ({ params }) => {
   const { id } = use(params);
@@ -44,7 +47,6 @@ const WorkoutDetailPage = ({ params }) => {
     }
   }, [user, id]);
 
-  // --- LOGICA ELIMINAZIONE ---
   const handleDeleteClick = () => {
     setModalConfig({
         isOpen: true,
@@ -60,7 +62,6 @@ const WorkoutDetailPage = ({ params }) => {
     try {
         const res = await fetch(`/api/workouts/${id}`, { method: 'DELETE' });
         if (res.ok) {
-            // Se eliminato con successo, torna allo storico
             router.push('/workouts/history'); 
         } else {
             alert("Errore durante l'eliminazione.");
@@ -82,42 +83,47 @@ const WorkoutDetailPage = ({ params }) => {
   };
 
   if (!user) return null;
-  if (loading) return <div className="workout-detail-container"><p className="loading-text">Caricamento dettagli...</p></div>;
-  if (error) return <div className="workout-detail-container"><p className="error-text">{error}</p></div>;
-  if (!workoutData || !workoutData.workout) return <div className="workout-detail-container"><p className="error-text">Allenamento non trovato.</p></div>;
+  
+  if (loading) return <div className={styles.container}><p className={styles.loadingText}>Caricamento dettagli...</p></div>;
+  if (error) return <div className={styles.container}><p className={styles.errorText}>{error}</p></div>;
+  if (!workoutData || !workoutData.workout) return <div className={styles.container}><p className={styles.errorText}>Allenamento non trovato.</p></div>;
 
   const { workout, exercises } = workoutData;
 
   return (
-    <div className="workout-detail-container">
+    <div className={styles.container}>
 
       <Link href="/workouts/history">
-        <button className="btn-back">← Torna allo Storico</button>
+        <button className={styles.btnBack}>← Torna allo Storico</button>
       </Link>
 
-      <div className="detail-header">
-        <span className="detail-date">{formatDate(workout.date)}</span>
-        <h1>{workout.name}</h1>
-        <span className="form-label">{workout.start_time} - {workout.end_time}</span>
+      <div className={styles.detailHeader}>
+        <span className={styles.detailDate}>{formatDate(workout.date)}</span>
+        <h1 className={styles.title}>{workout.name}</h1>
+        
+        <span className={styles.timeInfo}>
+          {workout.start_time} - {workout.end_time}
+        </span>
+
         {workout.notes && (
-          <div className="detail-notes">
+          <div className={styles.detailNotes}>
             📝 Note Allenamento: {workout.notes}
           </div>
         )}
       </div>
 
-      <h3 className="section-title">Esercizi Svolti</h3>
+      <h3 className={styles.sectionTitle}>Esercizi Svolti</h3>
 
       {exercises && exercises.length > 0 ? (
-        <div className="table-responsive">
-          <table className="workout-table">
+        <div className={styles.tableResponsive}>
+          <table className={styles.workoutTable}>
             <thead>
               <tr>
                 <th>Esercizio</th>
-                <th className="text-center">Serie</th>
-                <th className="text-center">Reps</th>
-                <th className="text-center">Kg</th>
-                <th className="text-center">Recupero</th>
+                <th className={styles.textCenter}>Serie</th>
+                <th className={styles.textCenter}>Reps</th>
+                <th className={styles.textCenter}>Kg</th>
+                <th className={styles.textCenter}>Recupero</th>
                 <th>Note Esercizio</th>
               </tr>
             </thead>
@@ -125,11 +131,11 @@ const WorkoutDetailPage = ({ params }) => {
               {exercises.map((ex, index) => (
                 <tr key={index}>
                   <td>{ex.name || 'Esercizio'}</td>
-                  <td className="text-center">{ex.sets}</td>
-                  <td className="text-center">{ex.reps}</td>
-                  <td className="text-center">{ex.weight}</td>
-                  <td className="text-center">{ex.rest_time} sec</td>
-                  <td className="note-cell">
+                  <td className={styles.textCenter}>{ex.sets}</td>
+                  <td className={styles.textCenter}>{ex.reps}</td>
+                  <td className={styles.textCenter}>{ex.weight}</td>
+                  <td className={styles.textCenter}>{ex.rest_time} sec</td>
+                  <td className={styles.noteCell}>
                     {ex.notes || '-'}
                   </td>
                 </tr>
@@ -138,24 +144,19 @@ const WorkoutDetailPage = ({ params }) => {
           </table>
         </div>
       ) : (
-        <p className="empty-state-text">
+        <p className={styles.emptyStateText}>
           Nessun esercizio registrato per questo allenamento.
         </p>
       )}
 
       {/* Bottoni Azione */}
-      <div className="action-buttons-container">
-        
-        {/* Tasto ELIMINA (Nuovo) - Stile inline per fare veloce, rosso */}
-        <button 
-            onClick={handleDeleteClick} 
-            className="btn-cancel" 
-        >
+      <div className={styles.actionButtonsContainer}>
+        <button onClick={handleDeleteClick} className={styles.btnDelete}>
             🗑️ Elimina
         </button>
 
-        <Link href={`/workouts/${id}/edit`} className="btn-edit">
-          ✏️ Modifica Allenamento
+        <Link href={`/workouts/${id}/edit`} className={styles.btnEdit}>
+          ✏️ Modifica
         </Link>
       </div>
 

@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import { AuthContext } from '../../../context/AuthContext';
 import ConfirmModal from '../../../components/ConfirmModal';
 
+// --- IMPORTIAMO IL MODULO CSS ---
+import styles from './NewWorkout.module.css';
+
 const NewWorkoutPage = () => {
   const router = useRouter();
   const { user } = useContext(AuthContext);
@@ -86,9 +89,8 @@ const NewWorkoutPage = () => {
     setSelectedExercises(newList);
   };
 
-  // --- SUBMIT DEL FORM ---
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Blocca il ricaricamento della pagina standard
+    e.preventDefault(); 
 
     const payload = {
       name, date,
@@ -120,22 +122,18 @@ const NewWorkoutPage = () => {
   if (!user) return null;
 
   return (
-    <div className="new-workout-container">
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Nuova Sessione di Allenamento</h1>
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>Nuova Sessione di Allenamento</h1>
 
-      {/* IMPORTANTE: Usiamo il tag <form> con onSubmit. 
-         Questo attiva la validazione nativa del browser (il fumetto "Compila questo campo").
-      */}
       <form onSubmit={handleSubmit}>
 
-        {/* INTESTAZIONE: Nome, Data, Orari */}
-        <div className="workout-header-form">
-          <div className="input-group">
-            <label>Nome Scheda *</label>
-            {/* AGGIUNTO 'required': Ora se è vuoto esce il fumetto nativo */}
+        {/* INTESTAZIONE */}
+        <div className={styles.workoutHeaderForm}>
+          <div className={styles.inputGroup}>
+            <label className={styles.formLabel}>Nome Scheda *</label>
             <input
               type="text"
-              className="form-input"
+              className={styles.formInput}
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Es. Gambe e Spalle"
@@ -143,72 +141,69 @@ const NewWorkoutPage = () => {
             />
           </div>
 
-          <div className="row-inputs" style={{ marginTop: '10px' }}>
-            <div className="input-group">
-              <label>Data *</label>
-              <input type="date" className="form-input" value={date} onChange={(e) => setDate(e.target.value)} required />
+          <div className={styles.rowInputs}>
+            <div className={styles.inputGroup}>
+              <label className={styles.formLabel}>Data *</label>
+              <input type="date" className={styles.formInput} value={date} onChange={(e) => setDate(e.target.value)} required />
             </div>
-            <div className="input-group">
-              <label>Inizio</label>
-              <input type="time" className="form-input" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+            <div className={styles.inputGroup}>
+              <label className={styles.formLabel}>Inizio</label>
+              <input type="time" className={styles.formInput} value={startTime} onChange={(e) => setStartTime(e.target.value)} />
             </div>
-            <div className="input-group">
-              <label>Fine</label>
-              <input type="time" className="form-input" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+            <div className={styles.inputGroup}>
+              <label className={styles.formLabel}>Fine</label>
+              <input type="time" className={styles.formInput} value={endTime} onChange={(e) => setEndTime(e.target.value)} />
             </div>
           </div>
 
-          <div className="input-group" style={{ marginTop: '10px' }}>
-            <label>Note Generali Allenamento</label>
-            <textarea className="form-textarea" style={{ minHeight: '60px' }} value={workoutNotes} onChange={(e) => setWorkoutNotes(e.target.value)} placeholder="Come ti sentivi oggi?"></textarea>
+          <div className={styles.inputGroup}>
+            <label className={styles.formLabel}>Note Generali Allenamento</label>
+            <textarea className={styles.formTextarea} value={workoutNotes} onChange={(e) => setWorkoutNotes(e.target.value)} placeholder="Come ti sentivi oggi?"></textarea>
           </div>
         </div>
 
         {/* SELEZIONE ESERCIZI */}
-        <div className="add-exercise-section">
-          {/*Ho messo la possibilità di creare un allenamento vuoto di esercizi, */}
-          {/*ma con una semplice Nota, quindi non è required*/}
-          <select className="exercise-select" value={exerciseToAdd} onChange={(e) => setExerciseToAdd(e.target.value)} >
+        <div className={styles.addExerciseSection}>
+          <select className={styles.exerciseSelect} value={exerciseToAdd} onChange={(e) => setExerciseToAdd(e.target.value)} >
             <option value="">-- Seleziona Esercizio --</option>
             {availableExercises.map(ex => (
               <option key={ex.id} value={ex.id}>{ex.name} ({ex.muscle_group})</option>
             ))}
           </select>
-          {/* IMPORTANTE: type="button" serve per NON far inviare il form quando clicchi Aggiungi */}
-          <button type="button" className="btn-add-exercise" onClick={handleAddExercise}>+ Aggiungi</button>
+          <button type="button" className={styles.btnAddExercise} onClick={handleAddExercise}>+ Aggiungi</button>
         </div>
 
         {/* LISTA ESERCIZI */}
-        <div className="workout-exercises-list">
+        <div>
           {selectedExercises.map((item, index) => (
-            <div key={index} className="exercise-row-card">
-              <div className="row-header">
+            <div key={index} className={styles.exerciseRowCard}>
+              
+              <div className={styles.rowHeader}>
                 <strong>{item.name}</strong>
-                <button type="button" className="btn-remove" onClick={() => handleRemoveExercise(index)}>🗑️</button>
+                <button type="button" className={styles.btnRemove} onClick={() => handleRemoveExercise(index)}>🗑️</button>
               </div>
               
-              {}
-              <div className="grid-inputs">
-                <div className="input-group">
-                  <label>Serie</label>
-                  <input type="number" className="input-tiny" value={item.sets} onChange={(e) => handleChangeExercise(index, 'sets', e.target.value)} />
+              <div className={styles.gridInputs}>
+                <div className={styles.inputGroup}>
+                  <label className={styles.formLabel}>Serie</label>
+                  <input type="number" className={styles.inputTiny} value={item.sets} onChange={(e) => handleChangeExercise(index, 'sets', e.target.value)} />
                 </div>
-                <div className="input-group">
-                  <label>Reps</label>
-                  <input type="number" className="input-tiny" value={item.reps} onChange={(e) => handleChangeExercise(index, 'reps', e.target.value)} />
+                <div className={styles.inputGroup}>
+                  <label className={styles.formLabel}>Reps</label>
+                  <input type="number" className={styles.inputTiny} value={item.reps} onChange={(e) => handleChangeExercise(index, 'reps', e.target.value)} />
                 </div>
-                <div className="input-group">
-                  <label>Kg</label>
-                  <input type="number" className="input-tiny" value={item.weight} onChange={(e) => handleChangeExercise(index, 'weight', e.target.value)} />
+                <div className={styles.inputGroup}>
+                  <label className={styles.formLabel}>Kg</label>
+                  <input type="number" className={styles.inputTiny} value={item.weight} onChange={(e) => handleChangeExercise(index, 'weight', e.target.value)} />
                 </div>
-                <div className="input-group">
-                  <label>Tempo di recupero</label>
-                  <input type="number" className="input-tiny" value={item.rest_time} onChange={(e) => handleChangeExercise(index, 'rest_time', e.target.value)} placeholder="60" />
+                <div className={styles.inputGroup}>
+                  <label className={styles.formLabel}>Recupero (s)</label>
+                  <input type="number" className={styles.inputTiny} value={item.rest_time} onChange={(e) => handleChangeExercise(index, 'rest_time', e.target.value)} placeholder="60" />
                 </div>
               </div>
 
-              <div style={{ marginTop: '10px' }}>
-                <input type="text" className="form-input" style={{ fontSize: '0.9rem', padding: '6px' }}
+              <div className={styles.notesInputContainer}>
+                <input type="text" className={styles.formInput} 
                   placeholder="Note esercizio (es. cedimento, dropset...)"
                   value={item.notes} onChange={(e) => handleChangeExercise(index, 'notes', e.target.value)} />
               </div>
@@ -217,8 +212,7 @@ const NewWorkoutPage = () => {
           ))}
         </div>
 
-        {/* TASTO SALVA: type="submit" scatena la validazione 'required' */}
-        <button type="submit" className="btn-save-workout">Salva Allenamento</button>
+        <button type="submit" className={styles.btnSaveWorkout}>Salva Allenamento</button>
 
       </form>
 

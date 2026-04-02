@@ -5,6 +5,9 @@ import { AuthContext } from '../../../../context/AuthContext';
 import { useRouter, useParams } from 'next/navigation';
 import ConfirmModal from '../../../../components/ConfirmModal';
 
+// --- IMPORTIAMO IL MODULO CSS ---
+import styles from './EditWorkout.module.css';
+
 const EditWorkoutPage = () => {
   const { user, loading: authLoading } = useContext(AuthContext);
   const router = useRouter();
@@ -20,14 +23,13 @@ const EditWorkoutPage = () => {
   const [workoutExercises, setWorkoutExercises] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
 
-  // 2. Stato per la configurazione del Modale
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
     title: '',
     message: '',
     onConfirm: null,
     isDanger: false,
-    showCancel: false // Trucco per nascondere "Annulla" nei messaggi informativi
+    showCancel: false 
   });
 
   useEffect(() => {
@@ -71,14 +73,9 @@ const EditWorkoutPage = () => {
     loadData();
   }, [user, id, router]);
 
-  // --- Helper per il Modale ---
   const closeModal = () => {
     setModalConfig(prev => ({ ...prev, isOpen: false }));
   };
-
-  /*onSucces serve a dire: "Mostra il messaggio, e QUANDO l'utente clicca OK, esegui questa azione specifica".
-    Se è un Errore: Non passi nulla. L'utente clicca OK e il modale si chiude. Fine.
-    Se è un Successo: Passi una funzione (es. () => router.push(...)). L'utente clicca OK -> Il modale si chiude -> La pagina cambia.*/
 
   const showFeedback = (title, message, isError = false, onSuccess = null) => {
     setModalConfig({
@@ -87,10 +84,10 @@ const EditWorkoutPage = () => {
       message: message,
       isDanger: isError,
       confirmText: "Ho capito",
-      showCancel: false, // Non mostriamo "Annulla" per i messaggi di feedback
+      showCancel: false, 
       onConfirm: () => {
         closeModal();
-        if (onSuccess) onSuccess(); // Eseguiamo azione (es. redirect) dopo la chiusura
+        if (onSuccess) onSuccess(); 
       }
     });
   };
@@ -102,7 +99,6 @@ const EditWorkoutPage = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    // VALIDAZIONE CON MODALE
     if (!name) {
       showFeedback("Attenzione ⚠️", "Il nome della scheda è obbligatorio.", true);
       return;
@@ -121,86 +117,84 @@ const EditWorkoutPage = () => {
       });
 
       if (res.ok) {
-        // SUCCESSO CON MODALE -> Poi Redirect
         showFeedback("Ottimo! 🎉", "Allenamento aggiornato con successo.", false, () => {
           router.push(`/workouts/${id}`);
         });
       } else {
-        // ERRORE API CON MODALE
         const errorData = await res.json();
         showFeedback("Errore Salvataggio", errorData.error || "Impossibile salvare le modifiche.", true);
       }
     } catch (err) {
-      // ERRORE RETE CON MODALE
       showFeedback("Errore di Connessione", "Impossibile contattare il server.", true);
     }
   };
 
-  if (authLoading || pageLoading) return <div className="workout-detail-container"><p className="empty-state-text">Caricamento...</p></div>;
+  if (authLoading || pageLoading) return <div className={styles.container}><p className={styles.emptyStateText}>Caricamento...</p></div>;
 
   return (
-    <div className="workout-detail-container">
-      <h1 className="section-title">Modifica Allenamento</h1>
+    <div className={styles.container}>
+      <h1 className={styles.sectionTitle}>Modifica Allenamento</h1>
 
       <form onSubmit={handleUpdate}>
-        <div className="edit-section">
-          <div className="form-group">
-            <label className="form-label">Nome Scheda</label>
-            <input type="text" className="form-control" value={name || ''} onChange={e => setName(e.target.value)} required />
+        <div className={styles.editSection}>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Nome Scheda</label>
+            <input type="text" className={styles.formControl} value={name || ''} onChange={e => setName(e.target.value)} required />
           </div>
-          <div className="form-group">
-            <label className="form-label">Data</label>
-            <input type="date" className="form-control" value={date || ''} onChange={e => setDate(e.target.value)} required />
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Data</label>
+            <input type="date" className={styles.formControl} value={date || ''} onChange={e => setDate(e.target.value)} required />
           </div>
-          <div className="form-row">
-            <div className="form-col">
-              <label className="form-label">Inizio</label>
-              <input type="time" className="form-control" value={startTime || ''} onChange={e => setStartTime(e.target.value)} />
+          <div className={styles.formRow}>
+            <div className={styles.formCol}>
+              <label className={styles.formLabel}>Inizio</label>
+              <input type="time" className={styles.formControl} value={startTime || ''} onChange={e => setStartTime(e.target.value)} />
             </div>
-            <div className="form-col">
-              <label className="form-label">Fine</label>
-              <input type="time" className="form-control" value={endTime || ''} onChange={e => setEndTime(e.target.value)} />
+            <div className={styles.formCol}>
+              <label className={styles.formLabel}>Fine</label>
+              <input type="time" className={styles.formControl} value={endTime || ''} onChange={e => setEndTime(e.target.value)} />
             </div>
           </div>
-          <div className="form-group">
-            <label className="form-label">Note</label>
-            <textarea className="form-control" value={notes || ''} onChange={e => setNotes(e.target.value)} />
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Note</label>
+            <textarea className={styles.formControl} value={notes || ''} onChange={e => setNotes(e.target.value)} />
           </div>
         </div>
 
-        <h3 className="section-title">Esercizi</h3>
+        <h3 className={styles.sectionTitle}>Esercizi</h3>
         <div>
           {workoutExercises.map((row) => (
-            <div key={row.tempId} className="exercise-row-card">
-              <select className="form-control" value={row.exercise_id || ''} onChange={e => updateRow(row.tempId, 'exercise_id', e.target.value)}>
+            <div key={row.tempId} className={styles.exerciseRowCard}>
+              <select className={styles.formControl} value={row.exercise_id || ''} onChange={e => updateRow(row.tempId, 'exercise_id', e.target.value)}>
                 <option value="">-- Seleziona Esercizio --</option>
                 {availableExercises.map(ex => <option key={ex.id} value={ex.id}>{ex.name}</option>)}
               </select>
 
-              <div className="grid-inputs">
-                <div><small>Serie</small><input type="number" className="form-control" value={row.sets || ''} onChange={e => updateRow(row.tempId, 'sets', e.target.value)} /></div>
-                <div><small>Reps</small><input type="number" className="form-control" value={row.reps || ''} onChange={e => updateRow(row.tempId, 'reps', e.target.value)} /></div>
-                <div><small>Kg</small><input type="number" className="form-control" value={row.weight || ''} onChange={e => updateRow(row.tempId, 'weight', e.target.value)} /></div>
-                <div><small>Recupero</small><input type="number" className="form-control" value={row.rest_time || ''} onChange={e => updateRow(row.tempId, 'rest_time', e.target.value)} /></div>
+              <div className={styles.gridInputs}>
+                <div><small>Serie</small><input type="number" className={styles.formControl} value={row.sets || ''} onChange={e => updateRow(row.tempId, 'sets', e.target.value)} /></div>
+                <div><small>Reps</small><input type="number" className={styles.formControl} value={row.reps || ''} onChange={e => updateRow(row.tempId, 'reps', e.target.value)} /></div>
+                <div><small>Kg</small><input type="number" className={styles.formControl} value={row.weight || ''} onChange={e => updateRow(row.tempId, 'weight', e.target.value)} /></div>
+                <div><small>Recupero</small><input type="number" className={styles.formControl} value={row.rest_time || ''} onChange={e => updateRow(row.tempId, 'rest_time', e.target.value)} /></div>
               </div>
 
-              <input type="text" className="form-control" placeholder="Note esercizio..." value={row.notes || ''} onChange={e => updateRow(row.tempId, 'notes', e.target.value)} style={{ marginTop: '10px' }} />
-              <button type="button" onClick={() => removeRow(row.tempId)} className="btn-remove-row">✕</button>
+              {/* Rimosso style inline, aggiunta classe notesInput */}
+              <input type="text" className={`${styles.formControl} ${styles.notesInput}`} placeholder="Note esercizio..." value={row.notes || ''} onChange={e => updateRow(row.tempId, 'notes', e.target.value)} />
+              
+              <button type="button" onClick={() => removeRow(row.tempId)} className={styles.btnRemoveRow}>✕</button>
             </div>
           ))}
         </div>
 
-        <div className="btn-add-row-container">
-          <button type="button" onClick={addRow} className="btn-add-row">+ Aggiungi Esercizio</button>
+        <div className={styles.btnAddRowContainer}>
+          <button type="button" onClick={addRow} className={styles.btnAddRow}>+ Aggiungi Esercizio</button>
         </div>
 
-        <div className="form-actions">
-          <button type="button" onClick={() => router.back()} className="btn-cancel">Annulla</button>
-          <button type="submit" className="btn-save">💾 Salva Modifiche</button>
+        <div className={styles.formActions}>
+          <button type="button" onClick={() => router.back()} className={styles.btnCancel}>Annulla</button>
+          <button type="submit" className={styles.btnSave}>💾 Salva Modifiche</button>
         </div>
       </form>
 
-      {/* 3. INSERIMENTO DEL MODALE */}
       <ConfirmModal
         isOpen={modalConfig.isOpen}
         title={modalConfig.title}
@@ -209,7 +203,6 @@ const EditWorkoutPage = () => {
         onClose={closeModal}
         confirmText={modalConfig.confirmText}
         isDanger={modalConfig.isDanger}
-        // Se showCancel è false, passiamo null a cancelText per nasconderlo
         cancelText={modalConfig.showCancel ? "Annulla" : null}
       />
     </div>

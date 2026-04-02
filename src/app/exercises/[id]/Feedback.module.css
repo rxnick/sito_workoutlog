@@ -1,0 +1,155 @@
+/* Feedback.module.css */
+
+.feedbackSection {
+  background: var(--bg-card, white);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px var(--shadow, rgba(0,0,0,0.05));
+  margin-top: 40px;
+  border-top: 4px solid #ffc107; 
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  color: var(--text-main, #333);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.addFeedbackForm {
+  background: var(--bg-secondary, #fcfcfc);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border: 1px solid var(--border-light, #eee);
+}
+
+.formSubtitle {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  color: var(--text-main, #555);
+  font-weight: 600;
+}
+
+.starRatingInput {
+  display: flex;
+  gap: 8px;
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 15px;
+  user-select: none;
+}
+
+.star {
+  color: var(--text-muted, #e0e0e0);
+  transition: transform 0.1s, color 0.2s;
+}
+
+.star.active {
+  color: #ffc107;
+  transform: scale(1.1);
+}
+
+.ratingCount {
+  font-size: 1rem;
+  color: var(--text-muted, #666);
+  margin-left: 10px;
+  align-self: center;
+}
+
+.formTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid var(--border-light, #ddd);
+  border-radius: 8px;
+  background: var(--bg-card, #fff);
+  color: var(--text-main, #333);
+  margin-bottom: 15px;
+  resize: vertical;
+}
+
+.btnSubmitFeedback {
+  background-color: var(--primary-blue, #007bff);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.btnSubmitFeedback:hover {
+  background-color: #0056b3;
+}
+
+.feedbackList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feedbackEmpty {
+  text-align: center;
+  color: var(--text-muted, #888);
+  font-style: italic;
+  padding: 20px;
+}
+
+.feedbackItem {
+  border-bottom: 1px solid var(--border-light, #f0f0f0);
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.feedbackItem:last-child {
+  border-bottom: none;
+}
+
+.feedbackHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.feedbackUser {
+  font-weight: 700;
+  color: var(--text-main, #333);
+  font-size: 0.95rem;
+}
+
+.feedbackStarsStatic {
+  color: #ffc107;
+  letter-spacing: 2px;
+  font-size: 1rem;
+}
+
+.feedbackComment {
+  color: var(--text-main, #555);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.btnDeleteFeedback {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-top: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.btnDeleteFeedback:hover {
+  opacity: 1;
+}

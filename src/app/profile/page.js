@@ -5,33 +5,22 @@ import { AuthContext } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import ConfirmModal from '../../components/ConfirmModal';
 
+// --- IMPORTIAMO IL MODULO CSS ---
+import styles from './Profile.module.css';
+
 const ProfilePage = () => {
   const { user, logout, loading: authLoading } = useContext(AuthContext);
   const router = useRouter();
 
-  // fullUser: I dati "Reali" salvati nel database (per la visualizzazione)
   const [fullUser, setFullUser] = useState(null);
-  
-  // formData: I dati "Temporanei" mentre modifichi (per il form)
   const [formData, setFormData] = useState({
-    name: '',
-    surname: '',
-    country: '',
-    profile_image: '',
-    new_password: ''
+    name: '', surname: '', country: '', profile_image: '', new_password: ''
   });
 
   const [isEditing, setIsEditing] = useState(false);
 
-  // Configurazione Modale
   const [modalConfig, setModalConfig] = useState({
-    isOpen: false,
-    title: '',
-    message: '',
-    onConfirm: null,
-    isDanger: false,
-    showCancel: false,
-    confirmText: 'Ho capito'
+    isOpen: false, title: '', message: '', onConfirm: null, isDanger: false, showCancel: false, confirmText: 'Ho capito'
   });
 
   useEffect(() => {
@@ -46,7 +35,6 @@ const ProfilePage = () => {
         .then(data => {
             const userData = data.user || data; 
             setFullUser(userData);
-            // Inizializziamo il form con i dati attuali
             setFormData({
                 name: userData.name || '',
                 surname: userData.surname || '',
@@ -59,9 +47,7 @@ const ProfilePage = () => {
     }
   }, [user, authLoading, router]);
 
-  // --- QUANDO CLICCHI "MODIFICA PROFILO" ---
   const startEditing = () => {
-    // Reset del form ai valori attuali (per annullare modifiche precedenti non salvate)
     setFormData({
         name: fullUser.name || '',
         surname: fullUser.surname || '',
@@ -76,20 +62,11 @@ const ProfilePage = () => {
 
   const showFeedback = (title, message, isError = false, onSuccess = null) => {
     setModalConfig({
-      isOpen: true,
-      title: title,
-      message: message,
-      isDanger: isError,
-      confirmText: "Ho capito",
-      showCancel: false,
-      onConfirm: () => {
-        closeModal();
-        if (onSuccess) onSuccess();
-      }
+      isOpen: true, title, message, isDanger: isError, confirmText: "Ho capito", showCancel: false,
+      onConfirm: () => { closeModal(); if (onSuccess) onSuccess(); }
     });
   };
 
-  // --- SALVATAGGIO ---
   const handleSave = async (e) => {
     e.preventDefault();
     try {
@@ -97,21 +74,13 @@ const ProfilePage = () => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.name,
-          surname: formData.surname,
-          country: formData.country,
-          profile_image: formData.profile_image,
-          new_password: formData.new_password || undefined
+          name: formData.name, surname: formData.surname, country: formData.country,
+          profile_image: formData.profile_image, new_password: formData.new_password || undefined
         })
       });
 
       if (res.ok) {
-        showFeedback(
-          "Profilo Aggiornato! 🚀", 
-          "I dati sono stati salvati.", 
-          false, 
-          () => window.location.reload()
-        );
+        showFeedback("Profilo Aggiornato! 🚀", "I dati sono stati salvati.", false, () => window.location.reload());
         setIsEditing(false);
       } else {
         showFeedback("Errore", "Impossibile aggiornare. Riprova.", true);
@@ -126,9 +95,7 @@ const ProfilePage = () => {
       isOpen: true,
       title: 'Elimina Account ⚠️',
       message: 'Sei sicuro? Perderai tutti i tuoi dati. Azione irreversibile.',
-      isDanger: true,
-      confirmText: 'Sì, cancella tutto',
-      showCancel: true,
+      isDanger: true, confirmText: 'Sì, cancella tutto', showCancel: true,
       onConfirm: confirmDeleteAccount
     });
   };
@@ -149,134 +116,95 @@ const ProfilePage = () => {
     }
   };
 
-  if (authLoading || !fullUser) return <div className="profile-loading">Caricamento...</div>;
+  if (authLoading || !fullUser) return <div className={styles.loading}>Caricamento...</div>;
 
   const joinDate = new Date(fullUser.created_at).toLocaleDateString('it-IT', {day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <div className="profile-container">
+    <div className={styles.container}>
       
-      <div className="profile-card">
+      <div className={styles.profileCard}>
         
-        {/* AVATAR (Usa fullUser perché è quello "vero") */}
-        <div className="profile-avatar-container">
+        <div className={styles.avatarContainer}>
           {fullUser.profile_image ? (
-             <img src={fullUser.profile_image} alt="Profilo" className="profile-img-real" />
+             <img src={fullUser.profile_image} alt="Profilo" className={styles.imgReal} />
           ) : (
-             <div className="profile-avatar-placeholder">
+             <div className={styles.avatarPlaceholder}>
                {fullUser.name ? fullUser.name.charAt(0).toUpperCase() : '?'}
              </div>
           )}
         </div>
 
-        <h1 className="profile-name">{fullUser.name} {fullUser.surname}</h1>
-        <p className="profile-email">{fullUser.email}</p>
-        <p className="form-helper-text">Membro da {joinDate}</p>
+        <h1 className={styles.name}>{fullUser.name} {fullUser.surname}</h1>
+        <p className={styles.email}>{fullUser.email}</p>
+        <span className={styles.formHelperText}>Membro da {joinDate}</span>
 
-        {/* STATISTICHE (Ora arrivano dal backend!) */}
-        <div className="profile-stats-grid">
-          <div className="stat-box">
-            <span className="stat-number">{fullUser.stats?.workouts || 0}</span>
-            <span className="stat-label">Allenamenti</span>
+        <div className={styles.statsGrid}>
+          <div className={styles.statBox}>
+            <span className={styles.statNumber}>{fullUser.stats?.workouts || 0}</span>
+            <span className={styles.statLabel}>Allenamenti</span>
           </div>
-          <div className="stat-box">
-            <span className="stat-number">{fullUser.stats?.exercises || 0}</span>
-            <span className="stat-label">Esercizi Creati</span>
+          <div className={styles.statBox}>
+            <span className={styles.statNumber}>{fullUser.stats?.exercises || 0}</span>
+            <span className={styles.statLabel}>Esercizi Creati</span>
           </div>
         </div>
 
         {!isEditing && (
-          <button onClick={startEditing} className="btn-edit-profile">
+          <button onClick={startEditing} className={styles.btnEditProfile}>
             ✏️ Modifica Dati
           </button>
         )}
 
-        {/* FORM MODIFICA (Usa formData) */}
         {isEditing && (
-          <form onSubmit={handleSave} className="edit-profile-form">
-            <hr />
+          <form onSubmit={handleSave} className={styles.editProfileForm}>
             <h3>Modifica Dati</h3>
             
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Nome</label>
-              <input 
-                 type="text" className="form-control"
-                 value={formData.name} 
-                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-              />
+              <input type="text" className={styles.formControl} value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Cognome</label>
-              <input 
-                 type="text" className="form-control"
-                 value={formData.surname} 
-                 onChange={(e) => setFormData({...formData, surname: e.target.value})}
-              />
+              <input type="text" className={styles.formControl} value={formData.surname} onChange={(e) => setFormData({...formData, surname: e.target.value})} />
             </div>
-
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Luogo di Nascita</label>
-              <input 
-                 type="text" className="form-control"
-                 value={formData.country} 
-                 onChange={(e) => setFormData({...formData, country: e.target.value})}
-              />
+              <input type="text" className={styles.formControl} value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})} />
             </div>
-
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>URL Immagine Profilo</label>
-              <input 
-                type="text" className="form-control"
-                placeholder="https://..."
-                value={formData.profile_image}
-                onChange={(e) => setFormData({...formData, profile_image: e.target.value})}
-              />
+              <input type="text" className={styles.formControl} placeholder="https://..." value={formData.profile_image} onChange={(e) => setFormData({...formData, profile_image: e.target.value})} />
             </div>
-
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label>Nuova Password</label>
-              <input 
-                type="password" className="form-control"
-                placeholder="Lascia vuoto per non cambiare"
-                value={formData.new_password}
-                onChange={(e) => setFormData({...formData, new_password: e.target.value})}
-              />
+              <input type="password" className={styles.formControl} placeholder="Lascia vuoto per non cambiare" value={formData.new_password} onChange={(e) => setFormData({...formData, new_password: e.target.value})} />
             </div>
 
-            <div className="form-actions">
-              <button type="button" onClick={() => setIsEditing(false)} className="btn-cancel">Annulla</button>
-              <button type="submit" className="btn-save">Salva Modifiche</button>
+            <div className={styles.formActions}>
+              <button type="button" onClick={() => setIsEditing(false)} className={styles.btnCancel}>Annulla</button>
+              <button type="submit" className={styles.btnSave}>Salva Modifiche</button>
             </div>
           </form>
         )}
 
-        {/* ZONA PERICOLO */}
-        <div style={{ marginTop: '40px', borderTop: '2px solid #eee', paddingTop: '20px', textAlign: 'center' }}>
-            <h4 style={{ color: '#d32f2f', marginBottom: '10px' }}>Zona Pericolo</h4>
-            <button 
-                onClick={handleDeleteClick} 
-                className="btn-logout-profile" 
-                style={{ backgroundColor: '#fee2e2', color: '#dc2626', border: '1px solid #fca5a5' }}
-            >
+        <div className={styles.dangerZone}>
+            <h4 className={styles.dangerTitle}>Zona Pericolo</h4>
+            <button onClick={handleDeleteClick} className={styles.btnDeleteAccount}>
                 🗑️ Elimina Account Definitivamente
             </button>
         </div>
 
-        <button onClick={logout} className="btn-logout-profile" style={{marginTop: '20px'}}>
+        <button onClick={logout} className={styles.btnLogout}>
           Logout
         </button>
 
       </div>
 
       <ConfirmModal
-        isOpen={modalConfig.isOpen}
-        title={modalConfig.title}
-        message={modalConfig.message}
-        onConfirm={modalConfig.onConfirm}
-        onClose={closeModal}
-        confirmText={modalConfig.confirmText}
-        isDanger={modalConfig.isDanger}
-        cancelText={modalConfig.showCancel ? "Annulla" : null}
+        isOpen={modalConfig.isOpen} title={modalConfig.title} message={modalConfig.message}
+        onConfirm={modalConfig.onConfirm} onClose={closeModal} confirmText={modalConfig.confirmText}
+        isDanger={modalConfig.isDanger} cancelText={modalConfig.showCancel ? "Annulla" : null}
       />
       
     </div>

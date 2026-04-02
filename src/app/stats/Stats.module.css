@@ -1,0 +1,112 @@
+/* Stats.module.css */
+
+.statsContainer {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.loadingSkeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+  color: var(--text-muted, #666);
+}
+
+.spinnerSkeleton {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--bg-secondary, #f3f3f3);
+  border-top: 5px solid var(--primary-blue, #007bff);
+  border-radius: 50%;
+  animation: spin 1s linear infinite; 
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pageTitle {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--text-main, #2c3e50);
+  font-size: 2rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.statCard {
+  background: var(--bg-card, white);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px var(--shadow, rgba(0,0,0,0.05));
+  border: 1px solid var(--border-light, #eee);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* La card che occupa tutta la larghezza */
+.fullWidth {
+  grid-column: 1 / -1; 
+}
+
+.chartTitle {
+  text-align: center;
+  color: var(--text-main, #333);
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.chartContainer {
+  width: 100%;
+  height: 350px; 
+}
+
+/* Select nel grafico a linee */
+.selectExerciseStats {
+  display: block;
+  margin: 0 auto 20px auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light, #ddd);
+  font-size: 1rem;
+  min-width: 250px;
+  background-color: var(--bg-card, #fff);
+  color: var(--text-main, #333);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.selectExerciseStats:focus {
+  outline: none;
+  border-color: var(--primary-blue, #007bff);
+}
+
+.emptyState {
+  text-align: center;
+  color: var(--text-muted, #888);
+  padding: 50px;
+  font-style: italic;
+}
+
+/* Ottimizzazione per Mobile 📱 */
+@media (max-width: 600px) {
+  .statsGrid {
+      grid-template-columns: 1fr; /* Forza una singola colonna sui telefoni */
+  }
+  .chartContainer {
+      height: 280px; /* Riduce l'altezza per evitare di occupare tutto lo schermo */
+  }
+}

@@ -9,14 +9,6 @@ import './globals.css';
 // === IMPORTIAMO IL MODULO DEL LAYOUT ===
 import styles from './Layout.module.css';
 
-// === CSS VECCHI (Li elimineremo man mano che li convertiamo in moduli) ===
-import '../styles/Workouts.css'; 
-import '../styles/Exercises.css'; 
-import '../styles/ConfirmModal.css'; 
-import '../styles/Profile.css'; 
-import '../styles/Feedback.css'; 
-import '../styles/Stats.css'; 
-
 export const metadata = {
   title: "WorkoutLog", 
   description: "Tieni traccia dei tuoi allenamenti e migliora le tue performance con WorkoutLog!",
