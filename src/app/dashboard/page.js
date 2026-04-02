@@ -5,16 +5,15 @@ import { AuthContext } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+// IMPORTA IL MODULO CSS
+import styles from './Dashboard.module.css';
+
 const Dashboard = () => {
-  // loading: authLoading per evitare conflitti con dataLoading
   const { user, loading: authLoading } = useContext(AuthContext);
   const router = useRouter();
 
   const [workouts, setWorkouts] = useState([]);
-  // Stato di caricamento dati workout 
   const [dataLoading, setDataLoading] = useState(true);
-  
-  // Stati per i numeri
   const [stats, setStats] = useState({ total: 0, thisMonth: 0 });
 
   const formatDate = (dateString) => {
@@ -39,25 +38,17 @@ const Dashboard = () => {
         const data = await res.json();
         setWorkouts(data);
 
-        // Calcoliamo le Statistiche al volo
         const now = new Date();
         const currentMonth = now.getMonth();
         const currentYear = now.getFullYear();
 
-        // Conta quanti allenamenti sono di questo mese.
-        // Il callback di `filter` viene eseguito per ogni elemento di `data`;
-        // `workout` è l'oggetto allenamento che contiene la proprietà `date`.
         const thisMonthCount = data.filter(workout => {
-            if (!workout?.date) 
-              return false; // ignora elementi senza data
+            if (!workout?.date) return false; 
             const wDate = new Date(workout.date);
             return wDate.getMonth() === currentMonth && wDate.getFullYear() === currentYear;
         }).length;
 
-        setStats({
-            total: data.length,
-            thisMonth: thisMonthCount
-        });
+        setStats({ total: data.length, thisMonth: thisMonthCount });
       }
     } catch (error) {
       console.error("Errore caricamento:", error);
@@ -66,80 +57,79 @@ const Dashboard = () => {
     }
   };
 
-  if (authLoading) return <div className="loading-text">Caricamento profilo...</div>;
+  if (authLoading) return <div className={styles.loadingText}>Caricamento profilo...</div>;
   if (!user) return null;
 
-  // Prendiamo solo gli ultimi 3 per la lista
   const recentWorkouts = workouts.slice(0, 3);
 
   return (
-    <div className="dashboard-container">
+    <div className={styles.container}>
 
       {/* BENVENUTO */}
-      <div className="welcome-section">
-        <h1>Ciao, {user.name}! 👋</h1>
-        <p>Ecco il riassunto della tua attività.</p>
+      <div className={styles.welcomeSection}>
+        <h1 className={styles.title}>Ciao, {user.name}! 👋</h1>
+        <p className={styles.subtitle}>Ecco il riassunto della tua attività.</p>
       </div>
 
-      {/* STATISTICHE NUMERICHE (Ora usiamo la griglia per i numeri veri) */}
-      <div className="stats-section">
-        <div className="stats-grid">
-            <div className="stat-card">
-                <span className="stat-value">{stats.total}</span>
-                <span className="stat-label">Allenamenti Totali</span>
+      {/* STATISTICHE NUMERICHE */}
+      <div className={styles.statsSection}>
+        <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+                <span className={styles.statValue}>{stats.total}</span>
+                <span className={styles.statLabel}>Allenamenti Totali</span>
             </div>
-            <div className="stat-card">
-                <span className="stat-value">{stats.thisMonth}</span>
-                <span className="stat-label">Questo Mese</span>
+            <div className={styles.statCard}>
+                <span className={styles.statValue}>{stats.thisMonth}</span>
+                <span className={styles.statLabel}>Questo Mese</span>
             </div>
         </div>
       </div>
 
       {/* AZIONI RAPIDE */}
-      <h3 className="section-title">Menu Rapido</h3>
-      <div className="dashboard-grid">
-        <Link href="/workouts/new" className="dashboard-card card-new">
-          <span className="card-icon">➕</span>
-          <span className="card-title">Nuovo</span>
-          <span className="card-desc">Crea scheda</span>
+      <h3 className={styles.sectionTitle}>Menu Rapido</h3>
+      <div className={styles.dashboardGrid}>
+        <Link href="/workouts/new" className={`${styles.dashboardCard} ${styles.cardNew}`}>
+          <span className={styles.cardIcon}>➕</span>
+          <span className={styles.cardTitle}>Nuovo</span>
+          <span className={styles.cardDesc}>Crea scheda</span>
         </Link>
 
-        <Link href="/workouts/history" className="dashboard-card card-history">
-          <span className="card-icon">📅</span>
-          <span className="card-title">Storico</span>
-          <span className="card-desc">Vedi tutti</span>
+        <Link href="/workouts/history" className={`${styles.dashboardCard} ${styles.cardHistory}`}>
+          <span className={styles.cardIcon}>📅</span>
+          <span className={styles.cardTitle}>Storico</span>
+          <span className={styles.cardDesc}>Vedi tutti</span>
         </Link>
 
-        <Link href="/exercises" className="dashboard-card card-exercises">
-          <span className="card-icon">💪</span>
-          <span className="card-title">Esercizi</span>
-          <span className="card-desc">La tua libreria</span>
+        <Link href="/exercises" className={`${styles.dashboardCard} ${styles.cardExercises}`}>
+          <span className={styles.cardIcon}>💪</span>
+          <span className={styles.cardTitle}>Esercizi</span>
+          <span className={styles.cardDesc}>La tua libreria</span>
         </Link>
       </div>
 
-      <hr className="divider" />
+      <hr className={styles.divider} />
 
-      {/* ULTIMI 3 ALLENAMENTI (Cliccabili) */}
-      <h3 className="section-title">Attività Recente</h3>    
+      {/* ULTIMI 3 ALLENAMENTI */}
+      <h3 className={styles.sectionTitle}>Attività Recente</h3>    
 
       {dataLoading ? (
-        <p>Caricamento...</p>
+        <p className={styles.loadingText}>Caricamento...</p>
       ) : recentWorkouts.length > 0 ? (
-        <div className="recent-list">
+        <div className={styles.recentList}>
             {recentWorkouts.map((workout) => (
-              <Link href={`/workouts/${workout.id}`} key={workout.id} className="recent-card-link">
-                  <div className="stat-card recent-item">
-                    <div style={{textAlign:'left'}}>
-                        <span className="workout-date-badge">{formatDate(workout.date)}</span>
-                        <span className="workout-name-list">{workout.name}</span>
+              <Link href={`/workouts/${workout.id}`} key={workout.id} className={styles.recentCardLink}>
+                  <div className={`${styles.statCard} ${styles.recentItem}`}>
+                    <div className={styles.recentItemText}> {/* SOSTITUITO LO STYLE INLINE! */}
+                        <span className={styles.workoutDateBadge}>{formatDate(workout.date)}</span>
+                        <span className={styles.workoutNameList}>{workout.name}</span>
                     </div>
-                    <span className="arrow-icon">➔</span>
+                    <span className={styles.arrowIcon}>➔</span>
                   </div>
               </Link>
             ))}
         </div>
       ) : (
-        <p className="empty-state-text">Non hai ancora registrato allenamenti.</p>
+        <p className={styles.emptyStateText}>Non hai ancora registrato allenamenti.</p>
       )}
 
     </div>

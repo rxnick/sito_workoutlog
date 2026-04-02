@@ -17,22 +17,24 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
 
-      {/* --- SINISTRA: Logo + Saluto  --- */}
+      {/* --- SINISTRA: Logo + Identificativo Utente --- */}
       <div className={styles.brand}>
+        {/* LOGO */}
         <Link href={user ? "/dashboard" : "/"} onClick={closeMenu}>
           <Image src="/logo.png"
             alt="WorkoutLog Logo"
             width={1024} 
             height={559}
             className={styles.logo}
-            priority 
           />
         </Link>
 
+        {/* IDENTIFICATIVO */}
         {loading ? (
           <div className={styles.greeting}><br></br></div>
         ) : user ?
-          <span className={styles.greeting}>Ciao, {user.name}</span> 
+          /* Rimosso "Ciao," per evitare ripetizioni con la dashboard */
+          <span className={styles.greeting}>{user.name}</span> 
           : 
           <span className={styles.greeting}>Benvenuto!</span>
         }

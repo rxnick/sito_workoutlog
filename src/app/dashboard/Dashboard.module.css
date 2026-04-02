@@ -1,0 +1,180 @@
+/* Dashboard.module.css */
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box; /* Previene sbavature con il padding */
+}
+
+/* Benvenuto */
+.welcomeSection {
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 2.2rem;
+  color: var(--text-main); /* Adattato al tema scuro */
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: var(--text-muted); /* Adattato al tema scuro */
+}
+
+/* Titoli delle sezioni */
+.sectionTitle {
+  text-align: left;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: var(--text-main);
+  border-left: 4px solid var(--primary-blue);
+  padding-left: 10px;
+  margin-top: 30px; 
+}
+
+/* SEZIONE STATISTICHE */
+.statsSection {
+  margin-bottom: 30px;
+  background: var(--bg-secondary); /* Sfondo scuro di notte */
+  padding: 20px;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 15px;
+}
+
+.statCard {
+  background: var(--bg-card); /* Card scura di notte */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* Per far sì che le scritte lunghe ("ALLENAMENTI TOTALI") non spacchino la card: */
+  text-align: center; 
+  word-wrap: break-word; 
+}
+
+.statValue {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary-blue);
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Linea divisoria */
+.divider {
+  border: 0;
+  height: 1px;
+  background: var(--border-light);
+  margin: 40px 0;
+}
+
+/* GRIGLIA AZIONI */
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  gap: 20px;
+}
+
+.dashboardCard {
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px var(--shadow);
+  text-decoration: none;
+  color: var(--text-main);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-bottom: 4px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.dashboardCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--shadow);
+}
+
+.cardNew { border-bottom-color: #2e7d32; }
+.cardHistory { border-bottom-color: #007bff; }
+.cardExercises { border-bottom-color: #ff9800; }
+
+.cardIcon { font-size: 2rem; margin-bottom: 10px; }
+.cardTitle { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; color: var(--text-main); }
+.cardDesc { font-size: 0.85rem; color: var(--text-muted); }
+
+/* LISTA RECENTI */
+.recentList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recentCardLink {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.1s;
+}
+
+.recentCardLink:hover {
+  transform: scale(1.01);
+}
+
+.recentItem {
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-left: 5px solid var(--primary-blue); 
+}
+
+.recentItemText {
+  text-align: left;
+}
+
+.workoutDateBadge {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.workoutNameList {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.arrowIcon {
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+.loadingText { text-align: center; color: var(--text-muted); margin-top: 50px; }
+.emptyStateText { color: var(--text-muted); }
+
+/* --- TRUCCHI PER MOBILE --- */
+@media (max-width: 480px) {
+  /* Su schermi molto stretti, mettiamo i due numeroni uno sopra l'altro invece che affiancati */
+  .statsGrid {
+    grid-template-columns: 1fr; 
+  }
+}

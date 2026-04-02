@@ -6,7 +6,7 @@
   align-items: center;
   flex-wrap: wrap; /* Permette di andare a capo */
   background-color: var(--bg-card, #ffffff); /* Usa variabile, o bianco di default */
-  padding: 10px 30px;
+  padding: 10px 20px; /* Ridotto leggermente il padding per il layout orizzontale */
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   position: sticky;
   top: 0;
@@ -16,25 +16,43 @@
 
 .brand {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Modificato da column a row per affiancare Logo e Nome */
   justify-content: center;
-  align-items: flex-start;
+  align-items: center; /* Allinea verticalmente Logo e Nome al centro */
+  gap: 12px; /* Spazio tra logo e nome */
   line-height: 1;
 }
 
 .logo {
-  height: 40px;
+  height: 35px; /* Già ridotto prima, va bene */
   width: auto;
   cursor: pointer;
   display: block;
+  /* Rimuoviamo la transizione vecchia */
+}
+
+/* --- TRUCCO LOGO DARK MODE (CON LOGO TRASPARENTE) --- */
+@media (prefers-color-scheme: dark) {
+  .logo {
+    /* Ora che è trasparente, usiamo un'ombra morbida per dargli un "bagliore" di notte */
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+  }
 }
 
 .greeting {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--text-main, black); /* Si adatta al tema */
   font-weight: 600;
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin: 0; /* Rimossi i vecchi margini verticali */
+  border-left: 1px solid var(--border-light, #ccc); /* Aggiunta linea divisoria dal logo */
+  padding-left: 12px; /* Spazio interno dalla linea */
+}
+
+/* Nasconde il saluto su schermi minuscoli per evitare che la barra diventi troppo stretta */
+@media (max-width: 400px) {
+  .greeting {
+    display: none; 
+  }
 }
 
 .links {

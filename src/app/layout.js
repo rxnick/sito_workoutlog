@@ -10,7 +10,6 @@ import './globals.css';
 import styles from './Layout.module.css';
 
 // === CSS VECCHI (Li elimineremo man mano che li convertiamo in moduli) ===
-import '../styles/Dashboard.css';
 import '../styles/Workouts.css'; 
 import '../styles/Exercises.css'; 
 import '../styles/ConfirmModal.css'; 
