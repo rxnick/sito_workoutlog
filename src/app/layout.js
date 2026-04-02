@@ -1,36 +1,38 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { AuthProvider } from '../context/AuthContext'; 
+import { AuthProvider } from '../context/AuthContext';
+import { ThemeProvider } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-// === IMPORTIAMO I CSS GLOBALI (Solo le variabili) ===
-import './globals.css';          
+// === IMPORTIAMO I CSS GLOBALI ===
+import './globals.css';
 
 // === IMPORTIAMO IL MODULO DEL LAYOUT ===
 import styles from './Layout.module.css';
 
 export const metadata = {
-  title: "WorkoutLog", 
+  title: "WorkoutLog",
   description: "Tieni traccia dei tuoi allenamenti e migliora le tue performance con WorkoutLog!",
   icons: {
-    icon: "/logo.png" 
+    icon: "/logo.png"
   }
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="it">
+    <html lang="it" suppressHydrationWarning> {/* Aggiungiamo l'attributo suppressHydrationWarning per evitare errori di idratazione durante il rendering lato server */}
       <body>
-        <AuthProvider>
-          {/* Usiamo le classi dal modulo! */}
-          <div className={styles.appLayout}>
-            <Navbar />
-            <div className={styles.pageContent}>
-              {children} 
+        <ThemeProvider>
+          <AuthProvider>
+            <div className={styles.appLayout}>
+              <Navbar />
+              <div className={styles.pageContent}>
+                {children}
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        </AuthProvider>
+          </AuthProvider>
+        </ThemeProvider>
         <SpeedInsights />
       </body>
     </html>

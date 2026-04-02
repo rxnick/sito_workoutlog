@@ -1,5 +1,4 @@
 import React from 'react';
-// IMPORTIAMO IL NUOVO MODULO CSS
 import styles from './ConfirmModal.module.css';
 
 const ConfirmModal = ({
@@ -10,7 +9,7 @@ const ConfirmModal = ({
   message,
   confirmText,
   cancelText,
-  isDanger = false // true = Rosso (Elimina), false = Verde/Blu (Ok/Salva)
+  isDanger = false 
 }) => {
   if (!isOpen) return null;
 
@@ -29,7 +28,6 @@ const ConfirmModal = ({
         </div>
 
         <div className={styles.modalFooter}>
-          {/* Mostra il tasto Annulla solo se cancelText esiste */}
           {cancelText && (
             <button className={styles.btnCancel} onClick={onClose}>
               {cancelText}
@@ -37,7 +35,6 @@ const ConfirmModal = ({
           )}
 
           <button
-            // Sceglie la classe CSS giusta in base a isDanger
             className={isDanger ? styles.btnConfirm : styles.btnSuccess}
             onClick={onConfirm}
           >

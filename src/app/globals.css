@@ -1,6 +1,9 @@
+/* globals.css */
+
 /* --- 1. DEFINIZIONE VARIABILI COLORI --- */
-:root {
-  /* Tema Chiaro (Default) */
+
+/* Tema Chiaro (Default e Forzato) */
+:root, [data-theme="light"] {
   --bg-body: #f4f4f4;
   --bg-card: #ffffff;
   --bg-secondary: #f8f9fa;
@@ -19,9 +22,30 @@
   --spinner-bg: #f3f3f3;
 }
 
-/* Quando il dispositivo è in Tema Scuro */
+/* Tema Scuro (Forzato Manualmente) */
+[data-theme="dark"] {
+  --bg-body: #121212;      
+  --bg-card: #1e1e1e;      
+  --bg-secondary: #2d2d2d;
+  
+  --text-main: #eeeeee;    
+  --text-muted: #b0b0b0;
+  --text-label: #cccccc;
+  
+  --border-light: #333333;
+  --border-input: #444444;
+  
+  --primary-blue: #3793ff; 
+  --primary-hover: #1e70d1;
+  
+  --shadow: rgba(0, 0, 0, 0.5);
+  --spinner-bg: #2d2d2d;
+}
+
+/* Quando il dispositivo è in Tema Scuro di sistema */
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* Si attiva SOLO se l'utente non ha forzato il tema chiaro dal bottone */
+  :root:not([data-theme="light"]) {
     --bg-body: #121212;      
     --bg-card: #1e1e1e;      
     --bg-secondary: #2d2d2d;
@@ -46,7 +70,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  /* USO LE VARIABILI QUI: */
   background-color: var(--bg-body); 
   color: var(--text-main);
   transition: background-color 0.3s, color 0.3s;
@@ -60,7 +83,6 @@ a {
 html, body {
   height: 100%;
 }
-
 
 /* --- 3. CLASSI "VECCHIE" (Da modularizzare in futuro) --- */
 
@@ -98,7 +120,7 @@ html, body {
 
 .btn-back-home {
   background-color: var(--primary-blue);
-  color: white; /* Il testo sui bottoni primari resta sempre bianco */
+  color: white; 
   padding: 12px 25px;
   border-radius: 30px;
   text-decoration: none;
@@ -131,7 +153,7 @@ html, body {
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
-  background: var(--bg-card); /* Adatta la card */
+  background: var(--bg-card); 
   border-radius: 10px;
   box-shadow: 0 4px 15px var(--shadow);
   font-family: sans-serif;
@@ -166,7 +188,7 @@ html, body {
   padding: 12px;
   border-radius: 5px;
   border: 1px solid var(--border-input);
-  background-color: var(--bg-card); /* Input scuri di notte */
+  background-color: var(--bg-card); 
   color: var(--text-main);
   font-size: 1rem;
   box-sizing: border-box;
@@ -207,7 +229,7 @@ html, body {
   background: var(--border-input);
 }
 
-/* NOTIFICHE & DEBUG BOX (Lascio i colori originali perché devono "spiccare") */
+/* NOTIFICHE & DEBUG BOX */
 .message-box {
   padding: 10px;
   border-radius: 5px;
@@ -267,10 +289,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active {
-    /* Sostituisce lo sfondo azzurrino col tuo colore scuro */
     -webkit-box-shadow: 0 0 0 30px var(--bg-card) inset !important;
-    /* Colora il testo di bianco */
     -webkit-text-fill-color: var(--text-main) !important;
-    /* Evita flash di colore strani */
     transition: background-color 5000s ease-in-out 0s;
 }

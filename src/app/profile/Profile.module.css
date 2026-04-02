@@ -188,6 +188,50 @@
   font-weight: 600;
 }
 
+/* --- SELETTORE TEMA --- */
+.themeSection {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.themeTitle {
+  color: var(--text-main);
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.themeButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btnTheme {
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--bg-secondary, #f0f0f0);
+  color: var(--text-main, #333);
+  border: 1px solid var(--border-light, #ddd);
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.btnTheme:hover {
+  background-color: var(--border-light, #ddd);
+}
+
+.btnThemeActive {
+  background-color: var(--primary-blue, #007bff);
+  color: white;
+  border-color: var(--primary-blue, #007bff);
+}
+
+.btnThemeActive:hover {
+  background-color: var(--primary-hover, #0056b3);
+}
+
 /* DANGER ZONE & LOGOUT */
 .dangerZone {
   margin-top: 40px;
@@ -205,7 +249,7 @@
 }
 
 .btnDeleteAccount {
-  background-color: #dc3545; /* Rosso acceso */
+  background-color: #dc3545; 
   color: white;
   border: none;
   padding: 12px 30px;

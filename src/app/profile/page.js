@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { ThemeContext } from '../../context/ThemeContext'; 
 import { useRouter } from 'next/navigation';
 import ConfirmModal from '../../components/ConfirmModal';
 
@@ -10,6 +11,7 @@ import styles from './Profile.module.css';
 
 const ProfilePage = () => {
   const { user, logout, loading: authLoading } = useContext(AuthContext);
+  const { theme, setTheme } = useContext(ThemeContext);
   const router = useRouter();
 
   const [fullUser, setFullUser] = useState(null);
@@ -188,6 +190,32 @@ const ProfilePage = () => {
           </form>
         )}
 
+        {/* --- SELETTORE TEMA (PULITO) --- */}
+        <div className={styles.themeSection}>
+          <h4 className={styles.themeTitle}>Aspetto Applicazione</h4>
+          <div className={styles.themeButtons}>
+            <button 
+              onClick={() => setTheme('light')}
+              className={`${styles.btnTheme} ${theme === 'light' ? styles.btnThemeActive : ''}`}
+            >
+              ☀️ Chiaro
+            </button>
+            <button 
+              onClick={() => setTheme('dark')}
+              className={`${styles.btnTheme} ${theme === 'dark' ? styles.btnThemeActive : ''}`}
+            >
+              🌙 Scuro
+            </button>
+            <button 
+              onClick={() => setTheme('system')}
+              className={`${styles.btnTheme} ${theme === 'system' ? styles.btnThemeActive : ''}`}
+            >
+              💻 Sistema
+            </button>
+          </div>
+        </div>
+
+        {/* --- ZONA PERICOLO --- */}
         <div className={styles.dangerZone}>
             <h4 className={styles.dangerTitle}>Zona Pericolo</h4>
             <button onClick={handleDeleteClick} className={styles.btnDeleteAccount}>
