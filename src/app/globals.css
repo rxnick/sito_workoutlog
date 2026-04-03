@@ -84,69 +84,7 @@ html, body {
   height: 100%;
 }
 
-/* --- 3. CLASSI "VECCHIE" (Da modularizzare in futuro) --- */
-
-/* PAGINA 404 e LOADING */
-.error-container, .loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 70vh;
-  text-align: center;
-  padding: 20px;
-}
-
-.error-code {
-  font-size: 6rem;
-  font-weight: 800;
-  color: var(--primary-blue);
-  margin: 0;
-  line-height: 1;
-}
-
-.error-title {
-  font-size: 1.8rem;
-  color: var(--text-main);
-  margin-top: 10px;
-}
-
-.error-desc {
-  color: var(--text-muted);
-  max-width: 400px;
-  margin-bottom: 30px;
-  font-size: 1.1rem;
-}
-
-.btn-back-home {
-  background-color: var(--primary-blue);
-  color: white; 
-  padding: 12px 25px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: transform 0.2s, background 0.2s;
-}
-
-.btn-back-home:hover {
-  background-color: var(--primary-hover);
-  transform: scale(1.05);
-}
-
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid var(--spinner-bg); 
-  border-top: 5px solid var(--primary-blue); 
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+/* --- 3. CLASSI "VECCHIE" (Autenticazione & Debug) --- */
 
 /* PASSWORD DIMENTICATA & AUTH CONTAINER */
 .auth-container {

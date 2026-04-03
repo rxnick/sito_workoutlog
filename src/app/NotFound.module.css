@@ -1,0 +1,47 @@
+/* NotFound.module.css */
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.errorCode {
+  font-size: 6rem;
+  font-weight: 800;
+  color: var(--primary-blue, #007bff);
+  margin: 0;
+  line-height: 1;
+}
+
+.errorTitle {
+  font-size: 1.8rem;
+  color: var(--text-main, #333);
+  margin-top: 10px;
+}
+
+.errorDesc {
+  color: var(--text-muted, #666);
+  max-width: 400px;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.btnBackHome {
+  background-color: var(--primary-blue, #007bff);
+  color: white; 
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btnBackHome:hover {
+  background-color: var(--primary-hover, #0056b3);
+  transform: scale(1.05);
+}
