@@ -220,7 +220,7 @@
   color: var(--text-muted, #888);
 }
 
-.loadingText, .emptyState { 
+.emptyState { 
   text-align: center; 
   color: var(--text-muted, #666); 
   margin-top: 40px; 
@@ -233,4 +233,52 @@
   .formRow { flex-direction: column; gap: 0; }
   .filtersContainer { flex-direction: column; align-items: center; }
   .filterSelect { width: 100%; max-width: 400px; }
+}
+
+/* --- BOTTONI AZIONE (Nuovi) --- */
+.btnPrimary {
+  background-color: var(--primary-blue, #007bff);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btnPrimary:hover {
+  background-color: var(--primary-hover, #0056b3);
+  transform: translateY(-2px);
+}
+
+.btnSave {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.btnSave:hover { 
+  background-color: #218838; 
+}
+
+.btnCancel {
+  background-color: var(--bg-secondary, #f8f9fa);
+  color: var(--text-main, #333);
+  border: 1px solid var(--border-light, #ddd);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.btnCancel:hover { 
+  background-color: var(--border-light, #e2e6ea); 
 }

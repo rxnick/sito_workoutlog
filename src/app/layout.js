@@ -18,9 +18,10 @@ export const metadata = {
   }
 };
 
+{/* Aggiungiamo l'attributo suppressHydrationWarning per evitare errori di idratazione durante il rendering lato server */}
 export default function RootLayout({ children }) {
   return (
-    <html lang="it" suppressHydrationWarning> {/* Aggiungiamo l'attributo suppressHydrationWarning per evitare errori di idratazione durante il rendering lato server */}
+    <html lang="it" suppressHydrationWarning> 
       <body>
         <ThemeProvider>
           <AuthProvider>

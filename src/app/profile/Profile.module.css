@@ -283,10 +283,3 @@
 .btnLogout:hover {
   background-color: var(--border-light, #ddd);
 }
-
-.loading {
-  text-align: center;
-  margin-top: 100px;
-  color: var(--text-muted);
-  font-size: 1.2rem;
-}

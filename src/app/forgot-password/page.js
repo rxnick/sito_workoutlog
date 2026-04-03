@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ConfirmModal from '../../components/ConfirmModal';
-// Usa global.css importato già in layout.js
+
+// --- IMPORTIAMO IL MODULO CSS ---
+import styles from './ForgotPassword.module.css';
 
 const ForgotPasswordPage = () => {
     const router = useRouter();
@@ -18,24 +20,22 @@ const ForgotPasswordPage = () => {
     const [message, setMessage] = useState({ text: '', type: '' });
     const [simulatedCode, setSimulatedCode] = useState(null);
 
-    // CONFIGURAZIONE DEL MODALE
     const [modalConfig, setModalConfig] = useState({
-        isOpen: false,      // All'inizio è invisibile (FALSE)
-        title: '',          // Nessun titolo
-        message: '',        // Nessun messaggio
-        onConfirm: null,    // Nessuna azione se premi OK
-        isDanger: false,    // Non è rosso (pericolo)
-        confirmText: 'OK',  // Testo del bottone
-        showCancel: false   // Niente tasto "Annulla"
+        isOpen: false,      
+        title: '',          
+        message: '',        
+        onConfirm: null,    
+        isDanger: false,    
+        confirmText: 'OK',  
+        showCancel: false   
     });
 
     const closeModal = () =>
         setModalConfig(prev => ({
-            ...prev,       // <--- 1. Prendi TUTTO quello che c'era nel vecchio modale e copialo qui
-            isOpen: false  // <--- 2. ORA sovrascrivi solo questa cosa specifica
+            ...prev,       
+            isOpen: false  
         }));
 
-    // --- FASE 1: INVIO EMAIL ---
     const handleRequest = async (e) => {
         e.preventDefault();
         setMessage({ text: 'Verifica in corso...', type: 'info' });
@@ -52,7 +52,7 @@ const ForgotPasswordPage = () => {
 
             if (res.ok) {
                 setSimulatedCode(data.debug_code);
-                setToken(data.debug_code); // Pre-compila il campo codice
+                setToken(data.debug_code); 
                 setMessage({ text: '', type: '' });
                 setStep(2);
             } else {
@@ -64,7 +64,6 @@ const ForgotPasswordPage = () => {
         }
     };
 
-    // --- FASE 2: CAMBIO PASSWORD ---
     const handleReset = async (e) => {
         e.preventDefault();
         setMessage({ text: 'Aggiornamento password...', type: 'info' });
@@ -84,9 +83,8 @@ const ForgotPasswordPage = () => {
             const data = await res.json();
 
             if (res.ok) {
-                // QUI USIAMO IL MODALE 
                 setModalConfig({
-                    isOpen: true, //// <--- APRITI!
+                    isOpen: true, 
                     title: "Password Aggiornata 🎉",
                     message: "La tua password è stata cambiata con successo! Ora puoi accedere col tuo nuovo account.",
                     isDanger: false,
@@ -94,7 +92,7 @@ const ForgotPasswordPage = () => {
                     showCancel: false,
                     onConfirm: () => {
                         closeModal();
-                        router.push('/login'); // Reindirizza solo quando clicchi il bottone
+                        router.push('/login'); 
                     }
                 });
             } else {
@@ -106,55 +104,55 @@ const ForgotPasswordPage = () => {
     };
 
     return (
-        <div className="auth-container">
-            <h2 className="auth-title">Recupero Password 🔐</h2>
+        <div className={styles.authContainer}>
+            <h2 className={styles.authTitle}>Recupero Password 🔐</h2>
 
-            {/* Messaggi */}
+            {/* Messaggi Dinamici */}
             {message.text && (
-                <div className={`message-box ${message.type === 'error' ? 'message-error' : 'message-info'}`}>
+                <div className={`${styles.messageBox} ${message.type === 'error' ? styles.messageError : styles.messageInfo}`}>
                     {message.text}
                 </div>
             )}
 
             {/* Box Codice Simulato */}
             {step === 2 && simulatedCode && (
-                <div className="debug-box">
+                <div className={styles.debugBox}>
                     <strong>🔔 SIMULAZIONE EMAIL</strong><br />
-                    Il tuo codice è: <span className="debug-code">{simulatedCode}</span>
+                    Il tuo codice è: <span className={styles.debugCode}>{simulatedCode}</span>
                 </div>
             )}
 
             {step === 1 ? (
                 <form onSubmit={handleRequest}>
-                    <p className="auth-desc">Inserisci la tua email per ricevere il codice.</p>
+                    <p className={styles.authDesc}>Inserisci la tua email per ricevere il codice.</p>
                     <input
                         type="email"
                         placeholder="La tua email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="form-input"
+                        className={styles.formInput}
                     />
-                    <button type="submit" className="btn-primary">Invia Codice</button>
+                    <button type="submit" className={styles.btnPrimary}>Invia Codice</button>
                 </form>
             ) : (
                 <form onSubmit={handleReset}>
-                    <p className="auth-desc">Codice inviato a: <strong>{email}</strong></p>
+                    <p className={styles.authDesc}>Codice inviato a: <strong>{email}</strong></p>
 
-                    <div className="form-group">
-                        <label className="form-label">Codice di Verifica</label>
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>Codice di Verifica</label>
                         <input
                             type="text"
                             placeholder="Es. 123456"
                             required
                             value={token}
                             onChange={(e) => setToken(e.target.value)}
-                            className="form-input"
+                            className={styles.formInput}
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Nuova Password</label>
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>Nuova Password</label>
                         <input
                             type="password"
                             placeholder="Nuova Password sicura"
@@ -162,37 +160,34 @@ const ForgotPasswordPage = () => {
                             minLength={4}
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
-                            className="form-input"
+                            className={styles.formInput}
                         />
                     </div>
 
-                    <button type="submit" className="btn-primary">Reimposta Password</button>
+                    <button type="submit" className={styles.btnPrimary}>Reimposta Password</button>
 
                     <button
                         type="button"
                         onClick={() => { setStep(1); setMessage({ text: '', type: '' }); }}
-                        className="btn-secondary"
+                        className={styles.btnSecondary}
                     >
                         Indietro
                     </button>
                 </form>
             )}
 
-            <div className="back-link">
-                <Link href="/login" className="link-blue">Torna al Login</Link>
+            <div className={styles.backLink}>
+                <Link href="/login" className={styles.linkBlue}>Torna al Login</Link>
             </div>
 
-            {/* INSERIAMO IL COMPONENTE MODALE QUI IN FONDO */}
-            {/*Infine, dobbiamo dire dove disegnare questo modale*/}
             <ConfirmModal
-                isOpen={modalConfig.isOpen} //...se questo è FALSE, il modale non si vede (restituisce null)
+                isOpen={modalConfig.isOpen} 
                 title={modalConfig.title}
                 message={modalConfig.message}
                 onConfirm={modalConfig.onConfirm}
-                onClose={closeModal} // Se clicca sulla X o fuori
+                onClose={closeModal} 
                 confirmText={modalConfig.confirmText}
                 isDanger={modalConfig.isDanger}
-                // Se showCancel è false, passiamo null a cancelText per nascondere il bottone "Annulla"
                 cancelText={modalConfig.showCancel ? "Annulla" : null}
             />
         </div>

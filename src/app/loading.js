@@ -1,10 +1,5 @@
-import styles from './Loading.module.css';
+import Loader from '../components/Loader';
 
 export default function Loading() {
-  return (
-    <div className={styles.loadingContainer}>
-      <div className={styles.spinner}></div>
-      <p>Caricamento in corso...</p>
-    </div>
-  );
+  return <Loader fullScreen={true} />;
 }

@@ -26,7 +26,7 @@
   background: var(--bg-card, white);
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 15px var(--shadow, rgba(0,0,0,0.08));
+  box-shadow: 0 4px 15px var(--shadow, rgba(0, 0, 0, 0.08));
   margin-bottom: 0;
 }
 
@@ -107,5 +107,8 @@
   padding-top: 20px;
 }
 
-.loadingText { text-align: center; color: var(--text-muted, #666); margin-top: 40px; }
-.errorText { text-align: center; color: #d32f2f; margin-top: 40px; }
+.errorText {
+  text-align: center;
+  color: #d32f2f;
+  margin-top: 40px;
+}

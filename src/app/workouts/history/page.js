@@ -7,6 +7,9 @@ import Link from 'next/link';
 // --- IMPORTIAMO IL MODULO CSS ---
 import styles from './History.module.css';
 
+// --- COMPONENTE DI CARICAMENTO ---
+import Loader from '../../../components/Loader';
+
 const HistoryPage = () => {
   const { user } = useContext(AuthContext);
   const [workouts, setWorkouts] = useState([]);
@@ -48,7 +51,7 @@ const HistoryPage = () => {
         Storico Allenamenti 📅
       </h1>
 
-      {loading && <p className={styles.loadingText}>Caricamento...</p>}
+      {loading && <Loader fullScreen={true} />}
 
       {!loading && workouts.length === 0 && (
         <div className={styles.emptyState}>

@@ -9,6 +9,9 @@ import ConfirmModal from '../../../components/ConfirmModal';
 import styles from './ExerciseDetail.module.css';
 import fStyles from './Feedback.module.css';
 
+// --- COMPONENTE DI CARICAMENTO ---
+import Loader from '../../components/Loader';
+
 const ExerciseDetailPage = ({ params }) => {
     const { id } = use(params);
     const { user } = useContext(AuthContext);
@@ -105,7 +108,7 @@ const ExerciseDetailPage = ({ params }) => {
         }
     };
 
-    if (loading) return <div className={styles.loadingText}>Caricamento...</div>;
+    if (loading) return <Loader fullScreen={true} />;
     if (!exercise) return <div className={styles.errorText}>Esercizio non trovato.</div>;
 
     return (

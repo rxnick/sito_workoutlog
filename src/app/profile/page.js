@@ -2,12 +2,15 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { ThemeContext } from '../../context/ThemeContext'; 
+import { ThemeContext } from '../../context/ThemeContext';
 import { useRouter } from 'next/navigation';
 import ConfirmModal from '../../components/ConfirmModal';
 
 // --- IMPORTIAMO IL MODULO CSS ---
 import styles from './Profile.module.css';
+
+// --- COMPONENTE DI CARICAMENTO ---
+import Loader from '../../components/Loader';
 
 const ProfilePage = () => {
   const { user, logout, loading: authLoading } = useContext(AuthContext);
@@ -30,20 +33,20 @@ const ProfilePage = () => {
       router.push('/login');
       return;
     }
-    
+
     if (user) {
       fetch('/api/me')
         .then(res => res.json())
         .then(data => {
-            const userData = data.user || data; 
-            setFullUser(userData);
-            setFormData({
-                name: userData.name || '',
-                surname: userData.surname || '',
-                country: userData.country || 'Italia',
-                profile_image: userData.profile_image || '',
-                new_password: ''
-            });
+          const userData = data.user || data;
+          setFullUser(userData);
+          setFormData({
+            name: userData.name || '',
+            surname: userData.surname || '',
+            country: userData.country || 'Italia',
+            profile_image: userData.profile_image || '',
+            new_password: ''
+          });
         })
         .catch(err => console.error(err));
     }
@@ -51,11 +54,11 @@ const ProfilePage = () => {
 
   const startEditing = () => {
     setFormData({
-        name: fullUser.name || '',
-        surname: fullUser.surname || '',
-        country: fullUser.country || 'Italia',
-        profile_image: fullUser.profile_image || '',
-        new_password: ''
+      name: fullUser.name || '',
+      surname: fullUser.surname || '',
+      country: fullUser.country || 'Italia',
+      profile_image: fullUser.profile_image || '',
+      new_password: ''
     });
     setIsEditing(true);
   };
@@ -118,22 +121,22 @@ const ProfilePage = () => {
     }
   };
 
-  if (authLoading || !fullUser) return <div className={styles.loading}>Caricamento...</div>;
-
-  const joinDate = new Date(fullUser.created_at).toLocaleDateString('it-IT', {day: 'numeric', month: 'long', year: 'numeric' });
+  if (authLoading || !fullUser) return <Loader fullScreen={true} />;
+  
+  const joinDate = new Date(fullUser.created_at).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
     <div className={styles.container}>
-      
+
       <div className={styles.profileCard}>
-        
+
         <div className={styles.avatarContainer}>
           {fullUser.profile_image ? (
-             <img src={fullUser.profile_image} alt="Profilo" className={styles.imgReal} />
+            <img src={fullUser.profile_image} alt="Profilo" className={styles.imgReal} />
           ) : (
-             <div className={styles.avatarPlaceholder}>
-               {fullUser.name ? fullUser.name.charAt(0).toUpperCase() : '?'}
-             </div>
+            <div className={styles.avatarPlaceholder}>
+              {fullUser.name ? fullUser.name.charAt(0).toUpperCase() : '?'}
+            </div>
           )}
         </div>
 
@@ -161,26 +164,26 @@ const ProfilePage = () => {
         {isEditing && (
           <form onSubmit={handleSave} className={styles.editProfileForm}>
             <h3>Modifica Dati</h3>
-            
+
             <div className={styles.formGroup}>
               <label>Nome</label>
-              <input type="text" className={styles.formControl} value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+              <input type="text" className={styles.formControl} value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
             </div>
             <div className={styles.formGroup}>
               <label>Cognome</label>
-              <input type="text" className={styles.formControl} value={formData.surname} onChange={(e) => setFormData({...formData, surname: e.target.value})} />
+              <input type="text" className={styles.formControl} value={formData.surname} onChange={(e) => setFormData({ ...formData, surname: e.target.value })} />
             </div>
             <div className={styles.formGroup}>
               <label>Luogo di Nascita</label>
-              <input type="text" className={styles.formControl} value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})} />
+              <input type="text" className={styles.formControl} value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })} />
             </div>
             <div className={styles.formGroup}>
               <label>URL Immagine Profilo</label>
-              <input type="text" className={styles.formControl} placeholder="https://..." value={formData.profile_image} onChange={(e) => setFormData({...formData, profile_image: e.target.value})} />
+              <input type="text" className={styles.formControl} placeholder="https://..." value={formData.profile_image} onChange={(e) => setFormData({ ...formData, profile_image: e.target.value })} />
             </div>
             <div className={styles.formGroup}>
               <label>Nuova Password</label>
-              <input type="password" className={styles.formControl} placeholder="Lascia vuoto per non cambiare" value={formData.new_password} onChange={(e) => setFormData({...formData, new_password: e.target.value})} />
+              <input type="password" className={styles.formControl} placeholder="Lascia vuoto per non cambiare" value={formData.new_password} onChange={(e) => setFormData({ ...formData, new_password: e.target.value })} />
             </div>
 
             <div className={styles.formActions}>
@@ -194,19 +197,19 @@ const ProfilePage = () => {
         <div className={styles.themeSection}>
           <h4 className={styles.themeTitle}>Aspetto Applicazione</h4>
           <div className={styles.themeButtons}>
-            <button 
+            <button
               onClick={() => setTheme('light')}
               className={`${styles.btnTheme} ${theme === 'light' ? styles.btnThemeActive : ''}`}
             >
               ☀️ Chiaro
             </button>
-            <button 
+            <button
               onClick={() => setTheme('dark')}
               className={`${styles.btnTheme} ${theme === 'dark' ? styles.btnThemeActive : ''}`}
             >
               🌙 Scuro
             </button>
-            <button 
+            <button
               onClick={() => setTheme('system')}
               className={`${styles.btnTheme} ${theme === 'system' ? styles.btnThemeActive : ''}`}
             >
@@ -217,10 +220,10 @@ const ProfilePage = () => {
 
         {/* --- ZONA PERICOLO --- */}
         <div className={styles.dangerZone}>
-            <h4 className={styles.dangerTitle}>Zona Pericolo</h4>
-            <button onClick={handleDeleteClick} className={styles.btnDeleteAccount}>
-                🗑️ Elimina Account Definitivamente
-            </button>
+          <h4 className={styles.dangerTitle}>Zona Pericolo</h4>
+          <button onClick={handleDeleteClick} className={styles.btnDeleteAccount}>
+            🗑️ Elimina Account Definitivamente
+          </button>
         </div>
 
         <button onClick={logout} className={styles.btnLogout}>
@@ -234,7 +237,7 @@ const ProfilePage = () => {
         onConfirm={modalConfig.onConfirm} onClose={closeModal} confirmText={modalConfig.confirmText}
         isDanger={modalConfig.isDanger} cancelText={modalConfig.showCancel ? "Annulla" : null}
       />
-      
+
     </div>
   );
 };

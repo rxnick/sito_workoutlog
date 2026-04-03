@@ -8,6 +8,9 @@ import ConfirmModal from '../../components/ConfirmModal';
 // --- IMPORTIAMO IL MODULO CSS ---
 import styles from './Exercises.module.css';
 
+// --- COMPONENTE DI CARICAMENTO ---
+import Loader from '../../components/Loader';
+
 const ExercisesPage = () => {
   const { user } = useContext(AuthContext);
 
@@ -145,7 +148,7 @@ const ExercisesPage = () => {
 
       <div style={{ textAlign: 'center', marginBottom: '30px' }}>
         {!showForm && (
-          <button onClick={() => setShowForm(true)} className="btn-primary">
+          <button onClick={() => setShowForm(true)} className={styles.btnPrimary}>
             + Crea Nuovo Esercizio
           </button>
         )}
@@ -187,13 +190,13 @@ const ExercisesPage = () => {
               onChange={(e) => setNewExercise({ ...newExercise, description: e.target.value })}></textarea>
           </div>
           <div className={styles.formActions}>
-            <button type="button" onClick={() => { setShowForm(false); setEditingId(null); }} className="btn-cancel">Annulla</button>
-            <button type="submit" className="btn-save">{editingId ? 'Aggiorna' : 'Salva'}</button>
+            <button type="button" onClick={() => { setShowForm(false); setEditingId(null); }} className={styles.btnCancel}>Annulla</button>
+            <button type="submit" className={styles.btnSave}>{editingId ? 'Aggiorna' : 'Salva'}</button>
           </div>
         </form>
       )}
 
-      {loading && <p className={styles.loadingText}>Caricamento...</p>}
+      {loading && <Loader />}
       {!loading && filteredExercises.length === 0 && (
         <p className={styles.emptyState}>Nessun esercizio trovato con questi filtri.</p>
       )}
