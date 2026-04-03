@@ -10,7 +10,7 @@ import styles from './ExerciseDetail.module.css';
 import fStyles from './Feedback.module.css';
 
 // --- COMPONENTE DI CARICAMENTO ---
-import Loader from '../../components/Loader';
+import Loader from '../../../components/Loader';
 
 const ExerciseDetailPage = ({ params }) => {
     const { id } = use(params);
